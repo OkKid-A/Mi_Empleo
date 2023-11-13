@@ -1,0 +1,103 @@
+<div class="pt-5" >
+  <div class="container blue" >
+    <h1 class="text-center" > Mi Empleo </h1>
+    <div class="row justify-content-center">
+      <div class="col-md-5 mx-auto justify-content-center">
+        <div class="card-transparent card-body justify-content-center" style="background-color: #ffffff">
+          <div class="alert alert-success" role="alert" *ngIf="creado">
+            Oferta creada exitosamente.
+          </div>
+          <div class="alert alert-success" role="alert" *ngIf="editado">
+            Oferta editada exitosamente.
+          </div>
+          <form [formGroup]="ofertaForm" (ngSubmit)="submit()" >
+            <div class="form-group">
+              <label class="text">Nombre de la Oferta</label>
+              <input class="form-control"  placeholder="Nombre" formControlName = "nombre"
+                     [class.is-invalid]="ofertaForm.controls['nombre'].invalid && ofertaForm.controls['nombre'].touched">
+              <div *ngIf="ofertaForm.controls['nombre'].invalid &&  (ofertaForm.controls['nombre'].dirty || ofertaForm.controls['nombre'].touched)"
+                   class="invalid-feedback">
+                Por favor ingrese un nombre de oferta valido.
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="text"> Ingresa el Salario del empleo.</label>
+              <input class="form-control" type="number" placeholder="Salario" formControlName = "salario"
+                     [class.is-invalid]="ofertaForm.controls['salario'].invalid && ofertaForm.controls['salario'].touched">
+              <div *ngIf="ofertaForm.controls['salario'].invalid &&  (ofertaForm.controls['salario'].dirty || ofertaForm.controls['salario'].touched)"
+                   class="invalid-feedback">
+                Por favor ingrese un salario valido.
+              </div>
+            </div>
+              <div class="form-group">
+                <label class="text">Breve descripcion de la Oferta</label>
+                <input class="form-control" placeholder="Descripcion" formControlName = "descripcion"
+                       [class.is-invalid]="ofertaForm.controls['descripcion'].invalid && ofertaForm.controls['descripcion'].touched">
+                <div *ngIf="ofertaForm.controls['descripcion'].invalid &&  (ofertaForm.controls['descripcion'].dirty || ofertaForm.controls['descripcion'].touched)"
+                     class="invalid-feedback">
+                  Por favor ingresa una descripcion valida.
+                </div>
+              </div>
+                <div class="form-group">
+                  <label class="text">Fecha de Publicacion</label>
+                  <input class="form-control" formControlName = "fechaPublicacion" type="date"
+                         [class.is-invalid]="ofertaForm.controls['fechaPublicacion'].invalid && ofertaForm.controls['fechaPublicacion'].touched">
+                  <div *ngIf="ofertaForm.controls['fechaPublicacion'].invalid &&  (ofertaForm.controls['fechaPublicacion'].dirty || ofertaForm.controls['fechaPublicacion'].touched)"
+                       class="invalid-feedback">
+                    Por favor ingresa una fecha.
+                  </div>
+              </div>
+                <div class="form-group">
+                  <label class="text">Fecha Limite De Aplicacion</label>
+                  <input class="form-control"  formControlName = "fechaLimite" type="date"
+                         [class.is-invalid]="ofertaForm.controls['fechaLimite'].invalid && ofertaForm.controls['fechaLimite'].touched">
+                  <div *ngIf="ofertaForm.controls['fechaLimite'].invalid &&  (ofertaForm.controls['fechaLimite'].dirty || ofertaForm.controls['fechaLimite'].touched)"
+                       class="invalid-feedback">
+                    Por favor ingresa una fecha.
+                  </div>
+                </div>
+            <div class="form-group">
+              <label class="text">Ubicacion del empleo</label>
+              <input class="form-control" placeholder="Ubicacion" formControlName = "ubicacion"
+                     [class.is-invalid]="ofertaForm.controls['ubicacion'].invalid && ofertaForm.controls['ubicacion'].touched">
+              <div *ngIf="ofertaForm.controls['ubicacion'].invalid &&  (ofertaForm.controls['ubicacion'].dirty || ofertaForm.controls['ubicacion'].touched)"
+                   class="invalid-feedback">
+                Por favor ingresa una ubicacion valida.
+              </div>
+            </div>
+            <div>
+              <label class="text">Modalidad del empleo</label>
+              <select  class="form-control col-2 w-25" id="modalidad"
+                      formControlName = "modalidad" [class.is-invalid]="ofertaForm.controls['modalidad'].invalid && ofertaForm.controls['modalidad'].touched">
+                <option *ngFor="let option of modOpciones" [value]="option.id" >
+                  {{option.name}}
+                </option>
+              </select>
+              <div *ngIf="ofertaForm.controls['modalidad'].invalid &&  (ofertaForm.controls['modalidad'].dirty || ofertaForm.controls['modalidad'].touched)"
+                   class="invalid-feedback">
+                Por favor selecciona una modalidad.
+              </div>
+            </div>
+            <div>
+              <label class="text">Selecciona la categoria</label>
+                <app-categoria-selector  (categoriaSeleccionada)="updateCategoria($event)"></app-categoria-selector>
+            </div>
+            <div class="form-group">
+              <label class="text">Detalles de la Oferta</label>
+              <textarea class="form-control" placeholder="Detalles" formControlName = "detalles"
+                        [class.is-invalid]="ofertaForm.controls['detalles'].invalid && ofertaForm.controls['detalles'].touched"></textarea>
+              <div *ngIf="ofertaForm.controls['detalles'].invalid &&  (ofertaForm.controls['detalles'].dirty || ofertaForm.controls['detalles'].touched)"
+                   class="invalid-feedback">
+                Por favor ingresa detalles validos.
+              </div>
+            </div>
+            <div class="form-group pt-1 align-content-center text-center">
+              <button *ngIf="oferta?.codigo" class="btn btn-success" type="submit" [disabled]="ofertaForm.invalid" >Editar Oferta</button>
+              <button *ngIf="!oferta?.codigo" class="btn btn-success" type="submit" [disabled]="ofertaForm.invalid">Crear Oferta</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

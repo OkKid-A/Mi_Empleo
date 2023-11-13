@@ -1,0 +1,31 @@
+<div class="flex header-main border-bottom bg-white mx-auto align-content-center">
+  <div class="container-fluid row">
+    <form [formGroup]="ofertaForm"
+           class="buscador"
+          (ngSubmit)="onBuscarSubmit()" >
+      <div class="row p-2 pt-4 mt-5 pb-3 d-flex justify-content-center">
+        <div class="col-md-6">
+          <div class="d-flex form-inputs">
+            <select (change)="changeFiltro()"  class="form-control col-2 w-25 buscadorFiltro" id="filtro"
+                    formControlName = "filtro">
+              <option value="0">Filtrar por:</option>
+              <option value="1">Categoria</option>
+              <option value="2">Modalidad</option>
+              <option value="3">Ubicacion</option>
+              <option value="4">Salario</option>
+            </select>
+            <input class="form-control 75" type="text" placeholder="Busca un empleo..." formControlName = "searchKey">
+            <a class="btn btn-dark px-3" (click)="onBuscarSubmit()">
+              <i class="fa fa-search pt-1"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+    </form>
+
+    <div ></div>
+  </div>
+  <div class="row mx-auto w-75">
+    <app-oferta-list [ofertas]="ofertas" [solicitante] = true></app-oferta-list>
+  </div>
+</div>

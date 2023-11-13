@@ -1,0 +1,41 @@
+<div class="pb-2 ">
+    <div class="card text-center container-fluid">
+        <a [routerLink]="" (click)="openModal(modal)" class="nav-item">
+        <div class="card-header row text-center">Candidato: {{entrevista.nombreUsuario}}</div>
+        <div class="card-body">
+            <h4 class="card-title">Estado: {{entrevista.estado}}</h4>
+            <p class="card-text">Hora de la Entrevista: {{entrevista.hora}}</p>
+            <div  ><p class="card-text">Fecha de la Entrevista: {{entrevista.fecha}}</p></div>
+            <p class="card-text">Direccion: {{entrevista.ubicacion}}</p>
+            <p *ngIf="entrevista.estado==='FINALIZADA'" class="card-text">Reporte: {{entrevista.notas}}</p>
+        </div>
+        </a>
+        <div class="row">
+        </div>
+    </div>
+</div>
+<ng-template #modal>
+    <div class="modal-content">
+        <form [formGroup]="notasForm" (ngSubmit)="finalizarEntrevista()" >
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Ingresa el reporte de la Entrevista.</h5>
+
+            </div>
+            <div class="modal-body">
+                <textarea type="text"
+                       class="form-control"
+                       id="notas"
+                       formControlName = "notas"
+                          [class.is-invalid]="notasForm.controls['notas'].invalid && notasForm.controls['notas'].touched"></textarea>
+                <div *ngIf="notasForm.controls['notas'].invalid &&  (notasForm.controls['notas'].dirty || notasForm.controls['notas'].touched)"
+                     class="invalid-feedback">
+                    Por favor ingrese un mensaje valido.
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="close pull-right btn btn-danger" (click)="modalRef.hide()" >Cancelar</button>
+                <button type="submit" class="btn btn-primary" (click)="modalRef.hide()">Finalizar</button>
+            </div></form>
+    </div>
+</ng-template>
+

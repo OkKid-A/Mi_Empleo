@@ -1,0 +1,19 @@
+<div class="card text-dark card-has-bg click-col" >
+  <div class="card-img-overlay d-flex flex-column">
+    <div class="card-body">
+      <h4 class="card-title mt-0 "><a class="text-dark" herf="https://creativemanner.com">{{postulacion.nombre}}</a></h4>
+      <small><i class="far fa-clock"></i>Empresa: {{postulacion.empresa}}</small>
+    </div>
+    <div class="card-footer">
+      <div class="media">
+        <div class="media-body">
+          <h5 class="my-0 text-dark d-block">Estado: {{postulacion.estado}}</h5>
+          <small>Fecha Limite: {{postulacion.fechaLimite}}</small>
+          <div *ngIf="validarBoton(postulacion.estado)" class="text-center" (click)="retirarSolicitud()">
+            <a class="btn btn-primary">Retirar Postulacion</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

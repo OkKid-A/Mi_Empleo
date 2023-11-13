@@ -1,0 +1,9 @@
+export enum Roles {
+  NO_USER= "NO_USER",
+  INVITADO = "INVITADO",
+  SOLICITANTE = "SOLICITANTE",
+  EMPLEADOR= "EMPLEADOR",
+  ADMIN = "ADMIN"
+
+
+}

@@ -1,0 +1,7 @@
+<div>
+  <form [formGroup]="cateForm">
+    <select (change)="changeCategoria()" class="form-control" formControlName="categoria" >
+      <option *ngFor="let categoria of categorias" value="{{categoria.codigo}}">{{categoria.nombre}}</option>
+    </select>
+  </form>
+</div>

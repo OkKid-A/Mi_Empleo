@@ -1,0 +1,28 @@
+<div class="container-fluid">
+    <div class="row">
+        <table id="listado" class="pt-5 table table-bordered table-striped" style="width: fit-content">
+            <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Reporte</th>
+                <th>Hora de la Entrevista</th>
+                <th>Fecha de la Entrevista</th>
+                <th>Lugar de la Entrevista</th>
+                <th>Seleccionar</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let entrevista of entrevistas">
+                <td>{{entrevista.nombreUsuario}}</td>
+                <td>{{entrevista.notas}}</td>
+                <td>{{entrevista.hora}}</td>
+                <td>{{entrevista.fecha}}</td>
+                <td>{{entrevista.ubicacion}}</td>
+                <td><a class="btn btn-success" (click)="seleccionarGanador(entrevista)">
+                    Seleccionar</a></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+</div>

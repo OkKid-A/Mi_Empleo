@@ -1,0 +1,73 @@
+<div class="alert alert-success" role="alert" *ngIf="creada">
+    Entrevista creada exitosamente.
+</div>
+<div class="pb-2 ">
+        <div class="card text-center container-fluid">
+            <div class="card-header row text-center">Candidato: {{postulacion.nombreUsuario}}</div>
+            <div class="card-body">
+                <h4 class="card-title">Email: {{postulacion.correo}}</h4>
+                <p class="card-text">Telefono: {{postulacion.telefono}}</p>
+                <div  ><p class="card-text">Direccion: {{postulacion.direccion}}</p></div>
+                <p class="card-text">Mensaje: {{postulacion.mensaje}}</p>
+            </div>
+            <div class="row">
+            <div class="card-footer text-muted  mx-auto">
+                <a   class="btn btn-primary mx-3">Ver CV</a>
+                <a  class="btn btn-success" (click)="openModal(entrevistaModal)" >Crear Entrevista</a>
+            </div>
+            </div>
+        </div>
+</div>
+<ng-template #entrevistaModal>
+    <div class="modal-content">
+        <form [formGroup]="entrevistaForm" (ngSubmit)="submitEntrevista()" >
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Menciona la razon de la eliminacion.</h5>
+
+            </div>
+            <div class="modal-body">
+                <label class="text">Fecha de la entrevista</label>
+                <input type="date"
+                       class="form-control"
+                       id="fecha"
+                       formControlName = "fecha"
+                       [class.is-invalid]="entrevistaForm.controls['fecha'].invalid && entrevistaForm.controls['fecha'].touched">
+
+                <div *ngIf="entrevistaForm.controls['fecha'].invalid &&  (entrevistaForm.controls['fecha'].dirty || entrevistaForm.controls['fecha'].touched)"
+                     class="invalid-feedback">
+                    Por favor ingrese una fecha valida.
+                </div>
+            </div>
+            <div class="modal-body">
+                <label class="text">Hora de la entrevista</label>
+                <input type="time"
+                       class="form-control"
+                       id="hora"
+                       step="1"
+                       formControlName = "hora"
+                       [class.is-invalid]="entrevistaForm.controls['hora'].invalid && entrevistaForm.controls['hora'].touched">
+
+                <div *ngIf="entrevistaForm.controls['hora'].invalid &&  (entrevistaForm.controls['hora'].dirty || entrevistaForm.controls['hora'].touched)"
+                     class="invalid-feedback">
+                    Por favor ingrese una hora valida.
+                </div>
+            </div>
+            <div class="modal-body">
+                <label class="text">Lugar de la entrevista</label>
+                <input type="text"
+                       class="form-control"
+                       id="ubicacion"
+                       formControlName = "ubicacion"
+                       [class.is-invalid]="entrevistaForm.controls['ubicacion'].invalid && entrevistaForm.controls['ubicacion'].touched">
+
+                <div *ngIf="entrevistaForm.controls['ubicacion'].invalid &&  (entrevistaForm.controls['ubicacion'].dirty || entrevistaForm.controls['ubicacion'].touched)"
+                     class="invalid-feedback">
+                    Por favor ingrese una ubicacion valida.
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="close pull-right btn btn-danger" (click)="modalRef.hide()" >Close</button>
+                <button type="button" class="btn btn-primary" (click)="submitEntrevista();modalRef.hide()">Confirmar</button>
+            </div></form>
+    </div>
+</ng-template>

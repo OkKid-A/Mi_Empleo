@@ -1,0 +1,86 @@
+<div class="pt-5" >
+  <div class="container blue" >
+    <h1 class="text-center" > Crea una Nueva Cuenta </h1>
+    <div class="row justify-content-center">
+      <div class="col-md-5 mx-auto justify-content-center">
+        <div class="card-transparent card-body justify-content-center" style="background-color: #ffffff">
+          <div class="alert alert-success" role="alert" *ngIf="creado">
+           Tu cuenta ha sido creada pero aun no validada. Recibiras un correo con las instrucciones para completar el proceso.
+          </div>
+          <form [formGroup]="usuarioForm" (ngSubmit)="submit()" >
+            <div class="form-group">
+              <label class="text">Ingresa tu nombre.</label>
+              <input class="form-control"  placeholder="Nombre" formControlName = "nombre"
+                     [class.is-invalid]="usuarioForm.controls['nombre'].invalid && usuarioForm.controls['nombre'].touched">
+              <div *ngIf="usuarioForm.controls['nombre'].invalid &&  (usuarioForm.controls['nombre'].dirty || usuarioForm.controls['nombre'].touched)"
+                   class="invalid-feedback">
+                Por favor ingrese un nombre valido.
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="text">Ingresa tu nombre de usuario.</label>
+              <input class="form-control"  placeholder="Username" formControlName = "username"
+                     [class.is-invalid]="usuarioForm.controls['username'].invalid && usuarioForm.controls['username'].touched">
+              <div *ngIf="usuarioForm.controls['username'].invalid &&  (usuarioForm.controls['username'].dirty || usuarioForm.controls['username'].touched)"
+                   class="invalid-feedback">
+                Por favor ingrese un nombre de usuario valido.
+              </div>
+            </div><div class="form-group">
+            <label class="text">Ingresa tu direccion</label>
+            <input class="form-control"  placeholder="Direccion" formControlName = "direccion"
+                   [class.is-invalid]="usuarioForm.controls['direccion'].invalid && usuarioForm.controls['direccion'].touched">
+            <div *ngIf="usuarioForm.controls['direccion'].invalid &&  (usuarioForm.controls['direccion'].dirty || usuarioForm.controls['direccion'].touched)"
+                 class="invalid-feedback">
+              Por favor ingrese una direccion valida.
+            </div>
+          </div><div class="form-group">
+            <label class="text">Ingresa tu email.</label>
+            <input class="form-control"  placeholder="Email" formControlName = "email"
+                   [class.is-invalid]="usuarioForm.controls['email'].invalid && usuarioForm.controls['email'].touched">
+            <div *ngIf="usuarioForm.controls['email'].invalid &&  (usuarioForm.controls['email'].dirty || usuarioForm.controls['email'].touched)"
+                 class="invalid-feedback">
+              Por favor ingrese un email valido.
+            </div>
+          </div><div class="form-group">
+            <label class="text">Ingresa tu CUI</label>
+            <input class="form-control"  placeholder="CUI" formControlName = "cui" type="number"
+                   [class.is-invalid]="usuarioForm.controls['cui'].invalid && usuarioForm.controls['cui'].touched">
+            <div *ngIf="usuarioForm.controls['cui'].invalid &&  (usuarioForm.controls['cui'].dirty || usuarioForm.controls['cui'].touched)"
+                 class="invalid-feedback">
+              Por favor ingrese un CUI valido.
+            </div>
+          </div><div class="form-group">
+            <label class="text">Ingresa un numero de telefono</label>
+            <input class="form-control"  placeholder="Telefono" formControlName = "telefono" type="number"
+                   [class.is-invalid]="usuarioForm.controls['telefono'].invalid && usuarioForm.controls['telefono'].touched">
+            <div *ngIf="usuarioForm.controls['telefono'].invalid &&  (usuarioForm.controls['telefono'].dirty || usuarioForm.controls['telefono'].touched)"
+                 class="invalid-feedback">
+              Por favor ingrese un numero de telefono valido.
+            </div>
+            <div class="form-group">
+              <label class="text">Selecciona tu fecha de nacimiento</label>
+              <input class="form-control"  formControlName = "dob" type="date"
+                     [class.is-invalid]="usuarioForm.controls['dob'].invalid && usuarioForm.controls['dob'].touched">
+              <div *ngIf="usuarioForm.controls['dob'].invalid &&  (usuarioForm.controls['dob'].dirty || usuarioForm.controls['dob'].touched)"
+                   class="invalid-feedback">
+                Por favor ingresa una fecha valida.
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="text">Selecciona el tipo de cuenta que deseas</label>
+              <select class="form-control col-2 w-25" id="tipo"
+                      formControlName = "tipo">
+                <option value="SOLICITANTE">Solicitante</option>
+                <option value="EMPLEADOR">Empleador</option>
+              </select>
+            </div>
+            <div class="form-group pt-1 align-content-center text-center">
+              <button  class="btn btn-success" type="submit" [disabled]="usuarioForm.invalid">Crear Usuario</button>
+            </div>
+          </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

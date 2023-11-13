@@ -1,0 +1,8 @@
+<div class="w-100 justify-content-center pt-5 mt-2"  id="emp-outlet">
+    <div class="row">
+        <h1>Ofertas En Estado De Entrevistas</h1>
+    </div>
+    <div class="d-flex row mx-auto w-50">
+        <app-oferta-card *ngFor="let oferta of ofertas" [oferta]="oferta" [postulaciones]="true" [entrevista]="true"></app-oferta-card>
+    </div>
+</div>

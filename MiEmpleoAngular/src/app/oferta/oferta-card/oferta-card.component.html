@@ -1,0 +1,67 @@
+<div class="pb-2 ">
+<div class="card text-center container-fluid">
+  <a [routerLink]="irAListado()" class="nav-item">
+  <div class="card-header row text-center">{{oferta.nombre}}</div>
+  <div class="card-body">
+    <h5 class="card-title">Empresa: {{oferta.empresa}}</h5>
+    <div *ngIf="solicitante" ><p class="card-text">Salario ${{oferta.salario}}</p></div>
+    <div *ngIf="empleador||postulaciones">
+      <p class="card-text">Estado: {{oferta.estado}}</p>
+      <p class="card-text">Fecha de Publicacion: {{oferta.fechaPublicacion}}</p>
+    </div>
+    <div></div>
+    <p class="card-text">Descripcion: {{oferta.descripcion}}</p>
+  </div>
+  </a>
+  <div class="card-footer text-muted row" *ngIf="solicitante">
+    <a [routerLink]="irADetalles()" class="btn btn-primary">Seleccionar</a></div>
+  <div class="card-footer text-muted row" *ngIf="postulaciones && conEntrevista " >
+    <a (click)="finalizar(modalFinalizar)" class="btn btn-primary" >Finalizar</a></div>
+  <div class="card-footer text-muted row" *ngIf="empleador && !ganador">
+      <a  *ngIf="validarActiva(oferta.estado)" [routerLink]="irAEditar()" class="btn btn-primary">Editar</a>
+      <a *ngIf="!validarFinalizado(oferta.estado)" (click)="openModal(modal)"  class="btn btn-danger">Eliminar</a>
+    <button id="openModalButton{{oferta.codigo}}" type="button" [hidden]="true" data-toggle="modal" data-target="mensajeBorrarModal">Open Modal</button>
+</div>
+</div>
+
+</div>
+<ng-template #modal>
+      <div class="modal-content">
+        <form [formGroup]="borrarForm" (ngSubmit)="borrar()" >
+          <div class="modal-header">
+            <h5 class="modal-title" id="modalTitle">Menciona la razon de la eliminacion.</h5>
+
+          </div>
+          <div class="modal-body">
+            <input type="text"
+                   class="form-control"
+                   id="mensaje"
+                   formControlName = "mensaje"
+                   [class.is-invalid]="borrarForm.controls['mensaje'].invalid && borrarForm.controls['mensaje'].touched">
+
+            <div *ngIf="borrarForm.controls['mensaje'].invalid &&  (borrarForm.controls['mensaje'].dirty || borrarForm.controls['mensaje'].touched)"
+                 class="invalid-feedback">
+              Por favor ingrese un mensaje valido.
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="close pull-right btn btn-danger" (click)="modalRef.hide()" >Close</button>
+            <button type="button" class="btn btn-primary" (click)="borrar();modalRef.hide()">Confirmar</button>
+          </div></form>
+      </div>
+</ng-template>
+<ng-template #modalFinalizar>
+
+  <div class="modal-content d-flex" style="width: fit-content">
+    <div class="modal-header">
+      <h5 class="modal-title" id="finalizarTitle">Selecciona al candidato que obtendra el empleo</h5>
+    </div>
+    <div class="modal-body ">
+      <app-entrevistas-table [entrevistas]="entrevistas" (closeMod) = "modalRef.hide()"></app-entrevistas-table>
+    </div>
+    <div class="modal-footer" >
+      <button type="button" class="close pull-right btn btn-danger" (click)="modalRef.hide()">Cerrar</button>
+    </div>
+  </div>
+
+</ng-template>

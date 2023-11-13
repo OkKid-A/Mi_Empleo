@@ -1,0 +1,12 @@
+<h1>Ofertas</h1>
+
+<div *ngIf="solicitante" class=" mx-auto w-100 d-flex" id="outlet">
+  <div class="row pb-2">
+    <app-oferta-card *ngFor="let oferta of ofertas" [oferta]="oferta" [solicitante]="true"></app-oferta-card>
+  </div>
+</div>
+<div *ngIf="empleador" class="d-flex w-100 justify-content-center" id="emp-outlet">
+  <div class="row">
+    <app-oferta-card *ngFor="let oferta of ofertas" [oferta]="oferta" [empleador] = true ></app-oferta-card>
+  </div>
+</div>

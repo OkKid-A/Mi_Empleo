@@ -1,0 +1,13 @@
+<div class="w-100 justify-content-center pt-lg-5 mt-md-2"  id="emp-outlet" *ngIf="postulaciones.length>0">
+    <div class="row">
+        <h1>    Candidatos a la oferta: {{postulaciones[0].oferta}}
+        </h1>
+
+    </div>
+    <div class="d-flex row mx-auto w-50" >
+        <app-candidato-card *ngFor="let postulacion of postulaciones" [postulacion]="postulacion"></app-candidato-card>
+    </div>
+</div>
+<div class="w-100 justify-content-center pt-lg-5 mt-md-2" *ngIf="postulaciones.length<1" >
+    <h1 >No hay candidatos</h1>
+</div>

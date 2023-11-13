@@ -1,0 +1,62 @@
+
+<div class="pt-5">
+  <div *ngIf="errores" class="alert alert-danger" >
+    {{errores}}
+  </div>
+  <div  *ngIf="success" class="alert alert-success">
+    Se completo la solicitud.
+  </div>
+<div class="d-flex mx-auto my my-auto align-items-center">
+
+  <div class="col"  >
+    <section class="py-5">
+      <div class="container px-4 px-lg-5 my-5">
+        <div class="row gx-4 gx-lg-3 align-items-center">
+          <div class="col-md-6"><img class="card-img-top mb-5 mb-md-0" src="https://dummyimage.com/600x700/dee2e6/6c757d.jpg" alt="..." /></div>
+          <div class="col-md-6">
+            <h1 class="display-5 fw-bolder">{{oferta.nombre}}</h1>
+            <div class="small mb-1">Empresa: {{oferta.empresa}}</div>
+            <div class="small mb-1">Ubicacion: {{oferta.ubicacion}}</div>
+            <div class="fs-5 mb-1">
+              <span>Modalidad: {{oferta.modalidad}}</span>
+
+            </div>
+            <div class="fs-5 mb-1">
+              <span>Categoria: {{oferta.categoria}}</span>
+
+            </div>
+            <div class="fs-5 mb-5">
+              <span>Salario: ${{oferta.salario}}</span>
+            </div>
+            <p class="lead">Descripcion: {{oferta.descripcion}}</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+  <div class="my-auto mx-auto col-3" >
+    <div class="card text-center  align-content-center justify-content-center">
+      <form [formGroup]="aplicarForm" (ngSubmit)="aplicarSubmit()" >
+        <div class="card-body">
+          <h5 class="card-title">Fecha de Publicacion: {{oferta.fechaPublicacion}}</h5>
+          <p class="card-text">Fecha Limite para Aplicar: {{oferta.fechaLimite}}</p>
+          <label for="mensaje" >Explica por qué deberian escogerte para este trabajo.</label>
+          <input type="text"
+                 class="form-control"
+                 id="mensaje"
+                 formControlName = "mensaje"
+                 [class.is-invalid]="aplicarForm.controls['mensaje'].invalid && aplicarForm.controls['mensaje'].touched">
+
+          <div *ngIf="aplicarForm.controls['mensaje'].invalid &&  (aplicarForm.controls['mensaje'].dirty || aplicarForm.controls['mensaje'].touched)"
+               class="invalid-feedback">
+            Por favor ingrese una contraseña valida.
+          </div>
+          <button type="submit" [disabled]="aplicarForm.invalid" class="btn btn-primary">Aplicar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+  <div class="mx-5"></div>
+
+</div>
+</div>
