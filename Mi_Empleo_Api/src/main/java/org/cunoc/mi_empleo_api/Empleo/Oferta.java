@@ -1,6 +1,7 @@
 package org.cunoc.mi_empleo_api.Empleo;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.OptBoolean;
 
 import java.util.Date;
 
@@ -10,10 +11,10 @@ public class Oferta {
     private String categoria;
     private String ubicacion;
     private String estado;
-    @JsonFormat(shape =  JsonFormat.Shape.STRING, pattern = "yyyy-mm-dd")
+    @JsonFormat(shape =  JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", lenient = OptBoolean.FALSE)
 
     private Date fechaPublicacion;
-    @JsonFormat(shape =  JsonFormat.Shape.STRING, pattern = "yyyy-mm-dd")
+    @JsonFormat(shape =  JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", lenient = OptBoolean.FALSE)
 
     private Date fechaLimite;
     private String detalles;

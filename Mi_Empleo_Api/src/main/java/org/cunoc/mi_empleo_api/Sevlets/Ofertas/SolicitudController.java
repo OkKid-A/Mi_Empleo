@@ -8,17 +8,16 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.apache.http.entity.ContentType;
-import org.cunoc.mi_empleo_api.DB.Conector;
 import org.cunoc.mi_empleo_api.Empleo.Oferta;
 import org.cunoc.mi_empleo_api.Empleo.Solicitud;
 import org.cunoc.mi_empleo_api.Exceptions.InvalidDataException;
 import org.cunoc.mi_empleo_api.Exceptions.NoExisteException;
-import org.cunoc.mi_empleo_api.Services.OfertaService;
-import org.cunoc.mi_empleo_api.Services.SolicitudService;
+import org.cunoc.mi_empleo_api.Services.Empleos.SolicitudService;
 import org.cunoc.mi_empleo_api.Sessions.Iniciador;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,6 +39,8 @@ public class SolicitudController extends HttpServlet {
             objectMapper.writeValue(resp.getWriter(), ofertas);
         } catch (SQLException e) {
             resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
         }
     }
 

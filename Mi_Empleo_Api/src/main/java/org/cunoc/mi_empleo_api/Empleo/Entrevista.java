@@ -1,5 +1,7 @@
 package org.cunoc.mi_empleo_api.Empleo;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.sql.Time;
 import java.util.Date;
 
@@ -7,14 +9,37 @@ public class Entrevista {
 
     private int codigo;
     private int solicitante;
+    @JsonFormat(shape =  JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private Date fecha;
+    @JsonFormat(shape =  JsonFormat.Shape.STRING, pattern = "hh:mm:ss a")
     private Time hora;
     private String estado;
     private String ubicacion;
     private String notas;
     private int codigoOferta;
+    private String nombreUsuario;
 
     public Entrevista() {
+    }
+
+    public Entrevista(int codigo, int solicitante, Date fecha, Time hora, String estado, String ubicacion, String notas, int codigoOferta, String nombreUsuario) {
+        this.codigo = codigo;
+        this.solicitante = solicitante;
+        this.fecha = fecha;
+        this.hora = hora;
+        this.estado = estado;
+        this.ubicacion = ubicacion;
+        this.notas = notas;
+        this.codigoOferta = codigoOferta;
+        this.nombreUsuario = nombreUsuario;
+    }
+
+    public String getNombreUsuario() {
+        return nombreUsuario;
+    }
+
+    public void setNombreUsuario(String nombreUsuario) {
+        this.nombreUsuario = nombreUsuario;
     }
 
     public int getCodigo() {

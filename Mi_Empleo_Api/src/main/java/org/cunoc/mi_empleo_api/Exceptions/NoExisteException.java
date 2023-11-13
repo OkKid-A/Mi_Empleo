@@ -11,4 +11,8 @@ public class NoExisteException extends Exception implements CustomException{
     public String getErrorMessage() {
         return "No existe en la base de datos";
     }
+
+    public void printMessage(){
+        System.out.println(getMessage());
+    }
 }

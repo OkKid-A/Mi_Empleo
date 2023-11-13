@@ -1,26 +1,38 @@
-package org.cunoc.mi_empleo_api.Services;
+package org.cunoc.mi_empleo_api.Services.Empleos;
 
 import org.cunoc.mi_empleo_api.DB.Conector;
 import org.cunoc.mi_empleo_api.Empleo.Oferta;
 import org.cunoc.mi_empleo_api.Empleo.Solicitud;
 import org.cunoc.mi_empleo_api.Exceptions.InvalidDataException;
 import org.cunoc.mi_empleo_api.Exceptions.NoExisteException;
+import org.cunoc.mi_empleo_api.Services.Service;
 
-import javax.management.InvalidAttributeValueException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SolicitudService {
+public class SolicitudService extends Service {
 
     private Conector conector;
 
     public SolicitudService(Conector conector) {
-        this.conector = conector;
+        super(conector);
+        this.conector = getConector();
     }
 
-    public List<Oferta> getOfertasConSolicitud(String usuario, String estado) throws SQLException {
+    public List<Integer> getAllSolicitudesDeOferta (String oferta) throws SQLException {
+        String searchQ = String.format("SELECT usuario FROM solicitud WHERE codigo_oferta = %s", oferta);
+        List<Integer> codigosUsuario = new ArrayList<>();
+        ResultSet resultSet = conector.selectFrom(searchQ);
+        while (resultSet.next()){
+            codigosUsuario.add(resultSet.getInt("usuario"));
+        }
+        return codigosUsuario;
+    }
+
+    public List<Oferta> getOfertasConSolicitud(String usuario, String estado) throws SQLException, ParseException {
         OfertaService ofertaService = new OfertaService(conector);
         String searchQ = String.format("SELECT o.* ,u.nombre, c.nombre FROM oferta o INNER JOIN usuario u ON u.codigo = o.empresa" +
                 " INNER JOIN categoria c ON c.codigo = o.categoria INNER JOIN solicitud s ON o.codigo = s.codigo_oferta" +

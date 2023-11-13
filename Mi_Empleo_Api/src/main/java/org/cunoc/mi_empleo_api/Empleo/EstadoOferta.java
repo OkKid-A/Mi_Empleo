@@ -1,8 +1,11 @@
 package org.cunoc.mi_empleo_api.Empleo;
 
 public enum EstadoOferta {
-    PENDIENTE,
+    SELECCION,
     ACTIVA,
     ENTREVISTA,
     FINALIZADA;
+
+    EstadoOferta() {
+    }
 }
