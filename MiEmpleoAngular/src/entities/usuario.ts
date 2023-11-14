@@ -7,4 +7,5 @@ export interface Usuario extends UsuarioSession, UsuarioAuth{
   direccion: string;
   dob: string;
   cui: string;
+  telefono: string;
 }

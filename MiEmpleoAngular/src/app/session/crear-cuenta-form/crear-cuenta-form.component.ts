@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {OfertaService} from "../../../services/ofertas/oferta.service";
 import {ActivatedRoute} from "@angular/router";
 import {Usuario} from "../../../entities/usuario";
@@ -15,6 +15,7 @@ export class CrearCuentaFormComponent implements OnInit{
   usuarioForm! : FormGroup
   usuario! : Usuario
   creado : boolean = false;
+  telefono   = new FormControl([null,[Validators.required, Validators.maxLength(8)]])
 
   constructor(private fB: FormBuilder,
               private ofertaService: OfertaService,

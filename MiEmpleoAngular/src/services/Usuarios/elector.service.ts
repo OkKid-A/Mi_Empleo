@@ -1,13 +1,17 @@
 import { Injectable } from '@angular/core';
 import {Roles} from "../../share/roles";
 import {Router} from "@angular/router";
+import {HttpClient, HttpErrorResponse} from "@angular/common/http";
+import {Observable} from "rxjs";
+import {ApiUrl} from "../../share/api-url";
 
 @Injectable({
   providedIn: 'root'
 })
 export class ElectorService {
 
-  constructor(private router:Router) { }
+  constructor(private router:Router,
+              private http: HttpClient) { }
 
   public redirectPorTipo(){
 
@@ -30,4 +34,22 @@ export class ElectorService {
     localStorage.setItem("usuarioActual",codigo);
     localStorage.setItem("permisoActual",rol);
   }
+
+  public verificarCompletado(): boolean{
+    const rol = localStorage.getItem("permisoActual")??"";
+    const usuario = localStorage.getItem("usuarioActual")??"";
+      this.revisarUsuario(rol,usuario).subscribe({
+        next: (existe) => {
+          return existe;
+        },error(error:HttpErrorResponse){
+          return false
+        }
+      })
+    return false;
+  }
+
+  public revisarUsuario(rol:string, usuario:string):Observable<boolean>{
+    return this.http.get<boolean>(ApiUrl.API_URL+"usuario?rol="+rol+"&codigo="+usuario);
+  }
+
 }

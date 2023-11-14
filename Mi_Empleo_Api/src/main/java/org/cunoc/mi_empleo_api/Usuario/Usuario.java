@@ -17,8 +17,17 @@ public class Usuario {
     @JsonFormat(shape = JsonFormat.Shape.STRING)
     private String tipo;
     private int cui;
+    private String telefono;
 
     public Usuario() {
+    }
+
+    public String getTelefono() {
+        return telefono;
+    }
+
+    public void setTelefono(String telefono) {
+        this.telefono = telefono;
     }
 
     public String getUsername() {

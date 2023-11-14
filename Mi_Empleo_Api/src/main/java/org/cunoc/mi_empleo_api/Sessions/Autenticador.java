@@ -20,6 +20,15 @@ public class Autenticador {
         String searchQ = String.format("SELECT tipo, codigo FROM usuario WHERE username = %s AND password = %s",
                 conector.encomillar(username),
                 conector.encomillar(password));
+        return getUsuarioAuth(searchQ);
+    }
+
+    public Usuario buscarUsuarioByToken(String  token) throws NoExisteException {
+        String searchQ = String.format("SELECT tipo, codigo FROM usuario WHERE password = %s", conector.encomillar(token));
+        return getUsuarioAuth(searchQ);
+    }
+
+    private Usuario getUsuarioAuth(String searchQ) throws NoExisteException {
         try {
             ResultSet resultSet = conector.selectFrom(searchQ);
             if (resultSet.next()){
@@ -37,4 +46,24 @@ public class Autenticador {
         }
     }
 
+    public boolean verificarCompletado(String rol, String usuario) throws SQLException {
+        String searchQ = null;
+        if (rol.equals(TipoUsuario.EMPLEADOR.toString())){
+            searchQ = "SELECT * FROM empleador WHERE codigo_usuario = "+usuario;
+        } else if (rol.equals(TipoUsuario.SOLICITANTE.toString())){
+            searchQ = "SELECT * FROM solicitante WHERE codigo_usuario = "+usuario;
+        } else {
+            return false;
+        }
+        try (ResultSet resultSet = conector.selectFrom(searchQ)) {
+            if (resultSet.next()){
+              if (rol.equals(TipoUsuario.EMPLEADOR.toString())){
+                  return resultSet.getString("vision")!=null;
+              } else {
+                  return resultSet.getString("cv_path")!=null;
+              }
+            }
+        }
+        return false;
+    }
 }

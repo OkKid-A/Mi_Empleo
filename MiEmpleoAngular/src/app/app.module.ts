@@ -41,6 +41,8 @@ import { AdminHeaderComponent } from './headers/admin-header/admin-header.compon
 import { AdminDashboardComponent } from './admin/admin-dashboar/admin-dashboard.component';
 import { CrearCuentaFormComponent } from './session/crear-cuenta-form/crear-cuenta-form.component';
 import { ValidateFormComponent } from './session/validate-form/validate-form.component';
+import { SolicitanteFormComponent } from './session/solicitante-form/solicitante-form.component';
+import { CargadorArchivoComponent } from './admin/cargador-archivo/cargador-archivo.component';
 
 @NgModule({
   declarations: [
@@ -76,7 +78,9 @@ import { ValidateFormComponent } from './session/validate-form/validate-form.com
     AdminHeaderComponent,
     AdminDashboardComponent,
     CrearCuentaFormComponent,
-    ValidateFormComponent
+    ValidateFormComponent,
+    SolicitanteFormComponent,
+    CargadorArchivoComponent
   ],
   imports: [
     BrowserModule,

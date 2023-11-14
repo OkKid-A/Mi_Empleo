@@ -23,19 +23,20 @@
                 Por favor ingrese una contraseña valida.
               </div>
             </div>
-            <div class="form-group pt-1 align-content-center text-center">
+            <div class="form-group pt-1 align-content-center row justify-content-center text-center">
               <button class="btn btn-success" type="submit" [disabled]="loginForm.invalid">Iniciar Sesion</button>
+              <a [routerLink]="uploadRoute" class="text-center pt-2">Subir Archivo de Records</a>
             </div>
           </form>
           <hr>
-          <div class="justify-content-center text-xl-center">
-            <a [routerLink]="crearRoute"  class="btn btn-primary">Crear Cuenta</a>
+          <div class="justify-content-center text-xl-center row">
+            <a [routerLink]="crearRoute"  class="btn btn-primary ">Crear Cuenta</a>
           </div>
         </div>
       </div>
     </div>
   </div>
 </div>
-<div class="pb-5 text-center">
-  <label class="text-align-center copyright" style="color: #ffffff"> @ 2023 Gomu Gomu no Code</label>
+<div class="pb-5 pt-lg-5 text-center">
+  <label class="text-align-center copyright"> @ 2023 Gomu Gomu no Code</label>
 </div>

@@ -11,7 +11,9 @@ import org.apache.http.entity.ContentType;
 import org.cunoc.mi_empleo_api.DB.Conector;
 import org.cunoc.mi_empleo_api.Empleo.Oferta;
 import org.cunoc.mi_empleo_api.Exceptions.InvalidDataException;
+import org.cunoc.mi_empleo_api.Exceptions.NoExisteException;
 import org.cunoc.mi_empleo_api.Services.UsuarioService;
+import org.cunoc.mi_empleo_api.Sessions.Autenticador;
 import org.cunoc.mi_empleo_api.Sessions.Iniciador;
 import org.cunoc.mi_empleo_api.Usuario.Usuario;
 
@@ -37,6 +39,44 @@ public class UsuarioController extends HttpServlet {
             resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
         } catch (InvalidDataException e) {
             e.printStackTrace();
+            resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+        }
+    }
+
+    @Override
+    protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        Conector conector = new Iniciador().getConector(resp,req);
+        String token = req.getParameter("token");
+        String password = req.getParameter("password");
+        ObjectMapper objectMapper = new ObjectMapper().registerModule(new JavaTimeModule());
+        resp.setContentType(ContentType.APPLICATION_JSON.getMimeType());
+        UsuarioService usuarioService = new UsuarioService(conector);
+        try {
+            Usuario usuario = usuarioService.cambiarPassword1st(password,token);
+            objectMapper.writeValue(resp.getWriter(), usuario);
+            resp.setStatus(HttpServletResponse.SC_CREATED);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+        } catch (NoExisteException e) {
+            e.printStackTrace();
+            resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
+        }
+    }
+
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        Conector conector = new Iniciador().getConector(resp,req);
+        String rol = req.getParameter("rol");
+        String codigoUsuario = req.getParameter("usuario");
+        Autenticador autenticador = new Autenticador(conector);
+        try {
+        if (rol!=null&&codigoUsuario!=null){
+            ObjectMapper objectMapper = new ObjectMapper().registerModule(new JavaTimeModule());
+            boolean existe = autenticador.verificarCompletado(rol,codigoUsuario);
+            objectMapper.writeValue(resp.getWriter(), existe);
+            resp.setStatus(HttpServletResponse.SC_ACCEPTED);
+        }} catch (SQLException e) {
             resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
         }
     }

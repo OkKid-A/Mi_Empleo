@@ -28,6 +28,9 @@ import {adminGuard} from "./Guards/admin.guard";
 import {AdminDashboardComponent} from "./admin/admin-dashboar/admin-dashboard.component";
 import {CrearCuentaFormComponent} from "./session/crear-cuenta-form/crear-cuenta-form.component";
 import {ValidateFormComponent} from "./session/validate-form/validate-form.component";
+import {isCompletedGuard} from "./Guards/is-completed.guard";
+import {SolicitanteFormComponent} from "./session/solicitante-form/solicitante-form.component";
+import {CargadorArchivoComponent} from "./admin/cargador-archivo/cargador-archivo.component";
 
 const routes: Routes = [
   {
@@ -44,6 +47,11 @@ const routes: Routes = [
     path: 'crear-cuenta',
     title: "Nueva Cuenta",
     component: CrearCuentaFormComponent
+  },
+  {
+    path: 'upload',
+    title: "Archivo de Entrada",
+    component: CargadorArchivoComponent
   },
   {
     path: 'validate/:codigo',
@@ -85,6 +93,12 @@ const routes: Routes = [
       {path: 'solicitudes', component: PostulacionesViewComponent},
       {path: 'entrevistas',component: SolicitanteEntrevistasViewComponent}
     ]
+  },
+  {
+    path: 'solicitante',
+    title: "Completar Cuenta",
+    canMatch:[solicitanteGuard],
+    component: SolicitanteFormComponent
   },
   {
     path: '**',

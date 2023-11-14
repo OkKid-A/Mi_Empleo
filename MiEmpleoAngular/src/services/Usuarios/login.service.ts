@@ -8,6 +8,7 @@ import {Roles} from "../../share/roles";
 import {UsuarioService} from "./usuario.service";
 import {Router, RouterModule} from "@angular/router";
 import {LocalStorageVariables} from "../../share/local-storage-variables";
+import {Md5} from "ts-md5";
 @Injectable({
   providedIn: 'root'
 })
@@ -29,4 +30,10 @@ export class LoginService {
     localStorage.removeItem(LocalStorageVariables.PERSMISO_LOCAL);
 
   }
+
+  public encriptar(pass:string):string{
+    const md5 = new Md5();
+    return  md5.appendStr(pass).end()!.toString();
+  }
+
 }

@@ -24,4 +24,8 @@ export class UsuarioService {
   public crearUsuario(usuario: Usuario, telefono: string):Observable<Usuario>{
     return this.http.post<Usuario>(ApiUrl.API_URL+this.USER_URL+"?telefono="+telefono,usuario)
   }
+
+  public crearPassword(password: string, token: string):Observable<Usuario>{
+    return this.http.put<Usuario>(ApiUrl.API_URL+this.USER_URL+"?token="+token+"&password="+password,password)
+  }
 }

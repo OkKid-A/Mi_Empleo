@@ -18,6 +18,7 @@ export class LoginFormComponent implements OnInit{
   usuario! : Usuario;
   existente : boolean;
   crearRoute = "../crear-cuenta"
+  uploadRoute = "../upload"
 
   constructor(private fb: FormBuilder, private loginService : LoginService, router:Router,private elserv:ElectorService) {
     this.existente = false;
@@ -33,9 +34,7 @@ export class LoginFormComponent implements OnInit{
   submit(): void {
     if (this.loginForm.valid) {
       console.log("creat" + "creado");
-
-      const md5 = new Md5();
-      let pass = md5.appendStr(this.loginForm.get('password')?.value).end()!.toString();
+      let pass = this.loginService.encriptar(this.loginForm.get('password')?.value);
       this.loginService.buscarUsuario(pass, this.loginForm.get('username')?.value).subscribe({
         next: (creado : Usuario) => {
           console.log("creat" + creado.tipo);

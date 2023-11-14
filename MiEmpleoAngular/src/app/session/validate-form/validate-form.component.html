@@ -1,1 +1,38 @@
-<p>validate-form works!</p>
+<div class="pt-5" >
+  <div class="container blue" >
+    <h1 class="text-center" > Crea una Nueva Cuenta </h1>
+    <div class="row justify-content-center">
+      <div class="col-md-5 mx-auto justify-content-center">
+        <div class="card-transparent card-body justify-content-center" style="background-color: #ffffff">
+          <form [formGroup]="passwordForm" (ngSubmit)="submit()" >
+            <div class="form-group">
+              <label class="text"> Ingresa tu Nueva Contraseña</label>
+              <input class="form-control" placeholder="Contraseña" formControlName = "password"
+                     [class.is-invalid]="passwordForm.controls['password'].invalid && passwordForm.controls['password'].touched">
+              <div *ngIf="passwordForm.controls['password'].invalid &&  (passwordForm.controls['password'].dirty || passwordForm.controls['password'].touched)"
+                   class="invalid-feedback">
+                Por favor ingrese un usuario valido.
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="text">Repite la Contraseña</label>
+              <input class="form-control" placeholder="Contraseña" formControlName = "conPassword"
+                     [class.is-invalid]="passwordForm.controls['conPassword'].invalid && passwordForm.controls['conPassword'].touched">
+              <div *ngIf="passwordForm.controls['conPassword'].invalid &&  (passwordForm.controls['conPassword'].dirty || passwordForm.controls['conPassword'].touched)"
+                   class="invalid-feedback">
+                Por favor ingrese un usuario valido.
+              </div>
+              <div *ngIf="passwordForm.controls['conPassword'].errors?.['compararPassword']">
+                Las contraseñas no coinciden.
+              </div>
+              <div class="form-group pt-1 align-content-center text-center">
+                <button  class="btn btn-success" type="submit" [disabled]="passwordForm.invalid">Crear Usuario</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
