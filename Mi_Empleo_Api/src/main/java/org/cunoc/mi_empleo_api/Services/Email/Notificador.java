@@ -1,4 +1,4 @@
-package org.cunoc.mi_empleo_api.Email;
+package org.cunoc.mi_empleo_api.Services.Email;
 
 import org.cunoc.mi_empleo_api.DB.Conector;
 import org.cunoc.mi_empleo_api.Exceptions.InvalidDataException;

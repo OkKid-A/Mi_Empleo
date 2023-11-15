@@ -1,0 +1,71 @@
+<div class="pt-5 m-5 d-flex" >
+  <div class="container blue   mx-auto row" >
+    <h1 class="text-center row" > Categorias </h1>
+    <a class="btn btn-success w-auto" (click)="seleccionarCategoria(seleccionada,modal)">
+      Nueva Categoria</a>
+    <div class="row pt-2 justify-content-center">
+      <div class="container-fluid">
+        <div class="row">
+          <table id="listado" class="pt-5 table table-bordered table-striped" style="width: fit-content">
+            <thead>
+            <tr>
+              <th>Codigo</th>
+              <th>Nombre</th>
+              <th>Descripcion</th>
+              <th>Editar</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let categoria of categorias">
+              <td>{{categoria.codigo}}</td>
+              <td>{{categoria.nombre}}</td>
+              <td>{{categoria.descripcion}}</td>
+              <td><a class="btn btn-success" (click)="seleccionarCategoria(categoria,modal)">
+                Seleccionar</a></td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<ng-template #modal>
+  <div class="modal-content">
+    <form [formGroup]="categoriaForm" (ngSubmit)="editar()" >
+      <div class="modal-header">
+        <h3 class="modal-title" id="modalTitle">Ingresa los datos de la categoria</h3>
+      </div>
+      <div class="modal-body">
+        <label>Nombre</label>
+        <input type="text"
+               class="form-control"
+               id="nombre"
+               formControlName = "nombre" placeholder="{{seleccionada.nombre}}"
+               [class.is-invalid]="categoriaForm.controls['nombre'].invalid && categoriaForm.controls['nombre'].touched">
+
+        <div *ngIf="categoriaForm.controls['nombre'].invalid &&  (categoriaForm.controls['nombre'].dirty || categoriaForm.controls['nombre'].touched)"
+             class="invalid-feedback">
+          Por favor ingrese un nombre valido.
+        </div>
+      </div>
+      <div class="modal-body">
+        <label>Descripcion</label>
+        <input type="text"
+               class="form-control"
+               id="descripcion"
+               formControlName = "descripcion" placeholder="{{seleccionada.descripcion}}"
+               [class.is-invalid]="categoriaForm.controls['descripcion'].invalid && categoriaForm.controls['descripcion'].touched">
+
+        <div *ngIf="categoriaForm.controls['descripcion'].invalid &&  (categoriaForm.controls['descripcion'].dirty || categoriaForm.controls['descripcion'].touched)"
+             class="invalid-feedback">
+          Por favor ingrese una descripcion valida.
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="close pull-right btn btn-danger" (click)="modalRef.hide()" >Close</button>
+        <button type="button" class="btn btn-primary" (click)="editar();modalRef.hide()" [disabled]="categoriaForm.invalid">Confirmar</button>
+      </div>
+    </form>
+  </div>
+</ng-template>

@@ -2,6 +2,7 @@ package org.cunoc.mi_empleo_api.DB;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 public class FormateoDeFechas {
@@ -33,4 +34,14 @@ public class FormateoDeFechas {
         Date date = sdf.parse(fecha);
         return date;
     }
+
+    public String  addDias(Date date, int dias){
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Calendar c = Calendar.getInstance();
+        c.setTime(date);
+        c.add(Calendar.DATE, dias);
+        return sdf.format(c.getTime());
+    }
+
+
 }

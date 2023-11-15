@@ -1,6 +1,7 @@
-package org.cunoc.mi_empleo_api.Services;
+package org.cunoc.mi_empleo_api.Services.Usuarios;
 
 import org.cunoc.mi_empleo_api.DB.Conector;
+import org.cunoc.mi_empleo_api.Usuario.Empleador.Tarjeta;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -30,5 +31,21 @@ public class EmpleadorService {
             return resultSet.getString("email");
         }
         return null;
+    }
+
+    public void updateEmpleador(Tarjeta tarjeta, String mision, String vision, String usuario) throws SQLException {
+        String insertQ = "INSERT INTO empleador (codigo_usuario, vision, mision) VALUES (?,?,?)";
+        conector.updateWithException(insertQ, new String[]{
+                usuario,
+                mision,
+                vision
+        });
+        String insertTarjeta = "INSERT INTO tarjeta (titular, numero, cvv, id_empleador) VALUES (?,?,?,?)";
+        conector.updateWithException(insertTarjeta, new String[]{
+                tarjeta.getTitular(),
+                tarjeta.getNumero(),
+                String.valueOf(tarjeta.getCvv()),
+                usuario
+        });
     }
 }

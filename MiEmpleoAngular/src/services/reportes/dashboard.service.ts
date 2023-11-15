@@ -16,4 +16,12 @@ export class DashboardService {
   public getDashboard():Observable<Dashboard>{
     return this.http.get<Dashboard>(ApiUrl.API_URL+this.DASH_URL);
   }
+
+  public cambiarFecha(fechaNueva: string):Observable<number>{
+    return this.http.put<number>(ApiUrl.API_URL+this.DASH_URL+"?fecha="+fechaNueva,fechaNueva)
+  }
+
+  public getFechaDB():Observable<string>{
+    return this.http.get<string>(ApiUrl.API_URL+this.DASH_URL+"?condicion=fecha")
+  }
 }

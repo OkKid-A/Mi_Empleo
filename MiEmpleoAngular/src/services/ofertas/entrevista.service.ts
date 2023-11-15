@@ -25,6 +25,10 @@ export class EntrevistaService {
     return this.http.get<Entrevista[]>(ApiUrl.API_URL+this.ENTRE_URL+"?ofertas="+codigoOferta);
   }
 
+  public getEntrevistasUsuario(usuario: string): Observable<Entrevista[]>{
+    return this.http.get<Entrevista[]>(ApiUrl.API_URL+this.ENTRE_URL+"?usuario="+usuario);
+  }
+
   public finalizarEntrevista(entrevista: Entrevista, notas: string): Observable<Entrevista>{
     return this.http.put<Entrevista>(ApiUrl.API_URL+this.ENTRE_URL+"?notas="+notas,entrevista)
   }

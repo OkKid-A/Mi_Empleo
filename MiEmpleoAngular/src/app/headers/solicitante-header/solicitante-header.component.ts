@@ -19,10 +19,11 @@ export class SolicitanteHeaderComponent implements OnInit{
     this.auth = false;
   }
 
-  public routerSolicitudes = "solicitudes"
-  public routerLogin = "../login"
-  public routerOut = ""
-  public routerBusqueda = "busqueda"
+  public routerSolicitudes = "solicitudes";
+  public routerLogin = "../login";
+  public routerOut = "";
+  public routerBusqueda = "busqueda";
+  public routerEntrevistas = "entrevistas";
 
   ngOnInit(): void {
     this.auth = this.logS.autenticado()

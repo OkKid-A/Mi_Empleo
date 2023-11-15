@@ -1,12 +1,12 @@
 import {Component, Input, OnInit, TemplateRef} from '@angular/core';
-import {Entrevista} from "../../../entities/entrevista";
+import {Entrevista} from "../../../../entities/entrevista";
 import {BsModalRef, BsModalService} from "ngx-bootstrap/modal";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {EntrevistaService} from "../../../services/ofertas/entrevista.service";
+import {EntrevistaService} from "../../../../services/ofertas/entrevista.service";
 import {Router} from "@angular/router";
 import {error} from "@angular/compiler-cli/src/transformers/util";
 import {HttpErrorResponse} from "@angular/common/http";
-import {ComisionService} from "../../../services/ofertas/comision.service";
+import {ComisionService} from "../../../../services/ofertas/comision.service";
 
 @Component({
   selector: 'app-entrevista-card',

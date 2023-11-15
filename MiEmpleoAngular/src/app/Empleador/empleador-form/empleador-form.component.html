@@ -1,0 +1,69 @@
+<div class="pt-5" >
+    <div class="container blue" >
+        <h1 class="text-center" > Completa la creacion del empleador </h1>
+        <div class="row justify-content-center">
+            <div class=" card col-md-5 mx-auto justify-content-center">
+                <div class="card-transparent card-body justify-content-center" style="background-color: #ffffff">
+                    <form [formGroup]="empForm" (ngSubmit)="submit()" >
+                        <div class="form-group">
+                            <label class="text"> Ingresa tu Mision</label>
+                            <input class="form-control" placeholder="Mision" formControlName = "mision"
+                                   [class.is-invalid]="empForm.controls['mision'].invalid && empForm.controls['mision'].touched">
+                            <div *ngIf="empForm.controls['mision'].invalid &&  (empForm.controls['mision'].dirty || empForm.controls['mision'].touched)"
+                                 class="invalid-feedback">
+                                Por favor ingrese una mision valida.
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="text"> Ingresa tu Vision</label>
+                            <input class="form-control" placeholder="Vision" formControlName = "vision"
+                                   [class.is-invalid]="empForm.controls['vision'].invalid && empForm.controls['vision'].touched">
+                            <div *ngIf="empForm.controls['vision'].invalid &&  (empForm.controls['vision'].dirty || empForm.controls['vision'].touched)"
+                                 class="invalid-feedback">
+                                Por favor ingrese una vision valida.
+                            </div>
+                        </div>
+                    </form>
+                    <hr>
+                    <h3>Tarjeta de Pago</h3>
+                    <form [formGroup]="tarjetaForm" >
+                        <div class="form-group">
+                            <label class="text"> Ingresa tu Numero de tarjeta</label>
+                            <input class="form-control" placeholder="Numero de Tarjeta" formControlName = "numero" type="number"
+                                   [class.is-invalid]="empForm.controls['numero'].invalid && empForm.controls['numero'].touched">
+                            <div *ngIf="empForm.controls['numero'].invalid &&  (empForm.controls['numero'].dirty || empForm.controls['numero'].touched)"
+                                 class="invalid-feedback">
+                                Por favor ingrese una mision valida.
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="text"> Ingresa el Codigo de Seguridad</label>
+                            <input class="form-control" placeholder="CVV" formControlName = "cvv"
+                                   [class.is-invalid]="empForm.controls['cvv'].invalid && empForm.controls['cvv'].touched">
+                            <div *ngIf="empForm.controls['cvv'].invalid &&  (empForm.controls['cvv'].dirty || empForm.controls['cvv'].touched)"
+                                 class="invalid-feedback">
+                                Por favor ingrese un CVV valido.
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="text"> Ingresa el Nombre del Titular</label>
+                            <input class="form-control" placeholder="Titular de la tarjeta" formControlName = "titular"
+                                   [class.is-invalid]="empForm.controls['titular'].invalid && empForm.controls['titular'].touched">
+                            <div *ngIf="empForm.controls['titular'].invalid &&  (empForm.controls['titular'].dirty || empForm.controls['titular'].touched)"
+                                 class="invalid-feedback">
+                                Por favor ingrese un Nombre valido.
+                            </div>
+                        </div>
+                        <div class="justify-content-center text-xl-center row">
+                            <button type="submit" (click)="submit()"  class="btn btn-primary" [disabled]="tarjetaForm.invalid||empForm.invalid">Crear Cuenta</button>
+                        </div>
+                    </form>
+                    <hr>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="pb-5 pt-lg-5 text-center">
+    <label class="text-align-center copyright"> @ 2023 Gomu Gomu no Code</label>
+</div>

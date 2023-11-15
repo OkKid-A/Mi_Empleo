@@ -6,7 +6,7 @@ import org.cunoc.mi_empleo_api.Empleo.EstadoOferta;
 import org.cunoc.mi_empleo_api.Empleo.Oferta;
 import org.cunoc.mi_empleo_api.Exceptions.NoExisteException;
 import org.cunoc.mi_empleo_api.Services.Service;
-import org.cunoc.mi_empleo_api.Services.UsuarioService;
+import org.cunoc.mi_empleo_api.Services.Usuarios.UsuarioService;
 import org.cunoc.mi_empleo_api.Usuario.Solicitante.Postulacion;
 
 import java.sql.ResultSet;

@@ -17,7 +17,7 @@ public class Lector {
         this.conector = conector;
     }
 
-    public BufferedReader getInputStreamFromFile(Part part) throws IOException {
+    public BufferedReader getBufferedReaderFromFile(Part part) throws IOException {
         String nombreArchivo = part.getSubmittedFileName();
         System.out.println(part.getContentType());
         System.out.println(part.getSubmittedFileName());
@@ -25,4 +25,6 @@ public class Lector {
         BufferedReader reader = new BufferedReader(new InputStreamReader(part.getInputStream(), StandardCharsets.UTF_8));
         return reader;
     }
+
+
 }

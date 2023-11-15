@@ -1,0 +1,63 @@
+<div class="pt-5 m-5 d-flex" >
+  <div class="container blue   mx-auto row" >
+    <h1 class="text-center row" > Costo de Comision Actual: ${{comisionActual}}</h1>
+    <div class="row pt-2 justify-content-center">
+      <form [formGroup]="comisionForm" (ngSubmit)="submit()" >
+        <div class="modal-header">
+          <h3 class="modal-title" id="modalTitle">Ingresa los datos de la comision</h3>
+        </div>
+        <div class="modal-body">
+          <label>Nuevo costo</label>
+          <input type="text"
+                 class="form-control"
+                 id="nombre"
+                 formControlName = "comision" placeholder="Costo..."
+                 [class.is-invalid]="comisionForm.controls['comision'].invalid && comisionForm.controls['comision'].touched">
+
+          <div *ngIf="comisionForm.controls['comision'].invalid &&  (comisionForm.controls['comision'].dirty || comisionForm.controls['comision'].touched)"
+               class="invalid-feedback">
+            Por favor ingrese un costo decimal valido.
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" (click)="openModal(modal)" [disabled]="comisionForm.invalid" >Cambiar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+  <div class="container blue   mx-auto row" >
+    <h1 class="text-center row" > Fecha Actual: {{fechaActual}}</h1>
+    <div class="row pt-2 justify-content-center">
+      <form [formGroup]="fechaForm" (ngSubmit)="submitFecha()" >
+        <div class="modal-header">
+          <h3 class="modal-title" id="fechaTitle">Ingresa la nueva fecha.</h3>
+        </div>
+        <div class="modal-body">
+          <div class="form-group">
+          <label class="text">Fecha de Publicacion</label>
+          <input class="form-control" formControlName = "fecha" type="date"
+                 [class.is-invalid]="fechaForm.controls['fecha'].invalid && fechaForm.controls['fecha'].touched">
+          <div *ngIf="fechaForm.controls['fecha'].invalid &&  (fechaForm.controls['fecha'].dirty || fechaForm.controls['fecha'].touched)"
+               class="invalid-feedback">
+            Por favor ingresa una fecha.
+          </div>
+        </div>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-primary" [disabled]="fechaForm.invalid">Cambiar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+<ng-template #modal>
+  <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title" id="title">Estas seguro de guardar los cambios?</h3>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="close pull-right btn btn-danger" (click)="modalRef.hide()" >Close</button>
+        <button type="button" class="btn btn-primary" (click)="submit();modalRef.hide()">Confirmar</button>
+      </div>
+  </div>
+</ng-template>

@@ -7,6 +7,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.apache.http.ParseException;
 import org.apache.http.entity.ContentType;
 import org.cunoc.mi_empleo_api.DB.Conector;
 import org.cunoc.mi_empleo_api.Empleo.Oferta;
@@ -17,6 +18,7 @@ import org.cunoc.mi_empleo_api.Services.Empleos.OfertaService;
 import org.cunoc.mi_empleo_api.Sessions.Iniciador;
 
 import java.io.IOException;
+import java.sql.SQLException;
 
 @WebServlet(name = "ComisionController", urlPatterns = {"/comision"})
 public class ComisionController extends HttpServlet {
@@ -53,6 +55,22 @@ public class ComisionController extends HttpServlet {
             } catch (NoExisteException e) {
                 resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
             }
+        }
+    }
+
+    @Override
+    protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        Conector conector = new Iniciador().getConector(resp,req);
+        ComisionService comisionService = new ComisionService(conector);
+        ObjectMapper objectMapper = new ObjectMapper().registerModule(new JavaTimeModule());
+        try {
+            Float nuevoValor = Float.valueOf(objectMapper.readValue(req.getInputStream(),String.class));
+            resp.setContentType(ContentType.APPLICATION_JSON.getMimeType());
+            comisionService.updateComision(nuevoValor);
+            resp.setStatus(HttpServletResponse.SC_ACCEPTED);
+        } catch (ParseException | SQLException e){
+            e.printStackTrace();
+            resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
         }
     }
 }

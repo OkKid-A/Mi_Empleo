@@ -27,6 +27,7 @@ public class EntrevistaController extends HttpServlet {
         EntrevistaService entrevistaService = new EntrevistaService(new Iniciador().getConector(resp,req));
         String oferta = req.getParameter("oferta");
         String ofertas = req.getParameter("ofertas");
+        String usuario = req.getParameter("usuario");
         if (oferta!=null){
                 boolean tiene = entrevistaService.tieneEntrevista(oferta);
                 resp.setContentType(ContentType.APPLICATION_JSON.getMimeType());
@@ -42,6 +43,16 @@ public class EntrevistaController extends HttpServlet {
             } catch (NoExisteException e) {
                 e.printStackTrace();
                 resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            }
+        } else if (usuario!=null){
+            try {
+            List<Entrevista> entrevistas = entrevistaService.getEntrevistasByUsuario(usuario);
+            ObjectMapper objectMapper = new ObjectMapper().registerModule(new JavaTimeModule());
+            objectMapper.writeValue(resp.getWriter(), entrevistas);
+            resp.setStatus(HttpServletResponse.SC_ACCEPTED);
+        } catch (InvalidDataException e) {
+                e.printStackTrace();
+                resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
             }
         }
     }

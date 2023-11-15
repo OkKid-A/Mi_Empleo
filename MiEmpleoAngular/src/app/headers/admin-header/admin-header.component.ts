@@ -12,6 +12,8 @@ export class AdminHeaderComponent {
   auth : boolean;
   routerInicio = "inicio";
   routerLogin = "login";
+  routerCategorias = "categorias";
+  routerComision = "comision";
 
   constructor(private logS : LoginService,
               private router : Router,

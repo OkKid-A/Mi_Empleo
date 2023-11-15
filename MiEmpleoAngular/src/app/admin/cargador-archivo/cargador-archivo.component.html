@@ -1,0 +1,32 @@
+<div class="pt-5">
+  <h1 class="text-center" [routerLink]="routerLogin" > Mi Empleo </h1>
+  <div class="row d-flex ">
+    <div class="col-sm flex-column">
+      <div class="container">
+          <div class="form-group required">
+            <label class="text"> Selecciona tu Archivo de Records</label>
+          </div>
+          <div class="input-group custom-file-button">
+            <input type="file" accept="text/csv, .json" id="pathfile" class="input-group-text" (change)="createFile($event)" required>
+            <label class="form-control" for="pathfile">Escoge tu Archivo...</label>
+          </div>
+          <div class="mx-auto row pt-lg-5">
+            <button (click)="subirArchivo()" class="btn btn-dark btn-block">Subir</button>
+          </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-lg">
+      <div *ngIf="actualizado">
+        Se ha actualizado la base de datos.
+      </div>
+    </div>
+  </div>
+  <script>
+    $('#pathFile').on('change', function () {
+      var fileName = $(this).val();
+      $(this).next('.custom-file-label').html(fileName);
+    })
+  </script>
+</div>

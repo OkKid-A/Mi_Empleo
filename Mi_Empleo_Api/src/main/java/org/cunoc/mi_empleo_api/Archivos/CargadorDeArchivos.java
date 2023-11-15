@@ -1,4 +1,4 @@
-package org.cunoc.mi_empleo_api.Usuario.Admin;
+package org.cunoc.mi_empleo_api.Archivos;
 
 import org.cunoc.mi_empleo_api.DB.Conector;
 import org.cunoc.mi_empleo_api.Usuario.TipoUsuario;
@@ -31,10 +31,10 @@ public class CargadorDeArchivos {
         JSONArray empleadoresList = convertirArray(jsonObject.get("empleadores"));
         JSONArray usuariosList = convertirArray(jsonObject.get("usuarios"));
         JSONArray ofertasList = convertirArray(jsonObject.get("ofertas"));
-   //     ingresarAdmin(adminList);
-      //  ingresarCategorias(categoriasList);
-       // ingresarSolicitantes(usuariosList);
-        //ingresarEmpleadores(empleadoresList);
+        ingresarAdmin(adminList);
+        ingresarCategorias(categoriasList);
+       ingresarSolicitantes(usuariosList);
+        ingresarEmpleadores(empleadoresList);
         ingresarOfertas(ofertasList);
     }
 
@@ -43,7 +43,7 @@ public class CargadorDeArchivos {
     }
 
     public void ingresarCategorias(JSONArray categorias) throws SQLException {
-        String insertCategorias = "INSERT INTO categoria (codigo, nombre, descripcion) VALUES (?,?,?)";
+        String insertCategorias = "INSERT  INTO categoria (codigo, nombre, descripcion) VALUES (?,?,?)";
         int size = ((JSONArray)categorias.get(0)).size();
         for (int i = 0; i < size; i++){
             JSONObject categoria = ((JSONObject) (((JSONArray)categorias.get(0)).get(i)));
@@ -56,7 +56,7 @@ public class CargadorDeArchivos {
     }
 
     public void ingresarSolicitantes(JSONArray usuarios) throws SQLException {
-        String insertSolicitante = "INSERT INTO solicitante (codigo_usuario, cv_path) VALUES (?,?)";
+        String insertSolicitante = "INSERT  INTO solicitante (codigo_usuario, cv_path) VALUES (?,?)";
         int size = ((JSONArray) usuarios.get(0)).size();
         for (int i = 0; i < size; i++) {
             JSONObject usuario = ((JSONObject) (((JSONArray)usuarios.get(0)).get(i)));
@@ -67,7 +67,7 @@ public class CargadorDeArchivos {
             insertPreferencias(categorias, String.valueOf((Long)usuario.get("codigo")));
             conector.updateWithException(insertSolicitante,new String[]{
                     String.valueOf((Long)usuario.get("codigo")),
-                    (String) usuario.get("currirulum")
+                    (String) usuario.get("curriculum")
             });
         }
     }
@@ -90,16 +90,11 @@ public class CargadorDeArchivos {
     }
 
     public void ingresarOfertas(JSONArray ofertas) throws SQLException {
-        String insertOferta = "INSERT INTO oferta (codigo, nombre, descripcion, empresa, categoria, estado, fecha_publicacion" +
+        String insertOferta = "INSERT INTO oferta (codigo, nombre, descripcion, empresa, categoria, estado, fecha_publicacion," +
                 " fecha_limite, salario, modalidad, ubicacion, detalles, ganador) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)";
         int size = ((JSONArray) ofertas.get(0)).size();
         for (int i = 0; i < size; i++) {
             JSONObject oferta = ((JSONObject) (((JSONArray) ofertas.get(0)).get(i)));
-            String codigoOferta = String.valueOf((Long)oferta.get("codigo"));
-            JSONArray solicitudes = convertirArray(oferta.get("solicitudes"));
-            ingresarSolicitudes(solicitudes,codigoOferta);
-            JSONArray entrevistas = convertirArray(oferta.get("entrevistas"));
-            ingresarEntrevistas(entrevistas,codigoOferta);
             conector.updateWithException(insertOferta, new String[]{
                     String.valueOf((Long)oferta.get("codigo")),
                     (String) oferta.get("nombre"),
@@ -115,6 +110,12 @@ public class CargadorDeArchivos {
                     (String) oferta.get("detalles"),
                     clasificarNulo(oferta.get("usuarioElegido"))
             });
+            String codigoOferta = String.valueOf((Long)oferta.get("codigo"));
+            JSONArray solicitudes = convertirArray(oferta.get("solicitudes"));
+            ingresarSolicitudes(solicitudes,codigoOferta);
+            JSONArray entrevistas = convertirArray(oferta.get("entrevistas"));
+            ingresarEntrevistas(entrevistas,codigoOferta);
+            System.out.println(                    String.valueOf((Long)oferta.get("codigo")));
         }
     }
 
@@ -138,7 +139,7 @@ public class CargadorDeArchivos {
     }
 
     public void ingresarSolicitudes(JSONArray solicitudes, String codigoOferta) throws SQLException {
-        String insertSolicitud = "INSERT INTO solicitud (codigo_oferta, usuario, mensaje) VALUES (?,?,?)";
+        String insertSolicitud = "INSERT  INTO solicitud (codigo_oferta, usuario, mensaje) VALUES (?,?,?)";
         int size = ((JSONArray) solicitudes.get(0)).size();
         for (int i = 0; i < size; i++) {
             JSONObject solicitud = ((JSONObject) (((JSONArray) solicitudes.get(0)).get(i)));
@@ -151,7 +152,7 @@ public class CargadorDeArchivos {
     }
 
     public void ingresarUsuario(JSONObject usuario, int tipo) throws SQLException {
-        String insertUsuario = "INSERT INTO usuario (codigo, nombre, direccion, username, password, email, cui, fecha_dob,tipo)" +
+        String insertUsuario = "INSERT  INTO usuario (codigo, nombre, direccion, username, password, email, cui, fecha_dob,tipo)" +
                 " VALUES (?,?,?,?,MD5(?),?,?,?,?)";
         String fecha;
         String rol;
@@ -178,7 +179,7 @@ public class CargadorDeArchivos {
     }
 
     public void insertTelefonos(JSONArray telefonos, String usuario) throws SQLException {
-        String insertTelefonos = "INSERT INTO telefono (numero, id_usuario) VALUES (?,?)";
+        String insertTelefonos = "INSERT  INTO telefono (numero, id_usuario) VALUES (?,?)";
         int size = ((JSONArray) telefonos.get(0)).size();
         for (int i = 0; i < size; i++){
             String telefono = ((String) (((JSONArray) telefonos.get(0)).get(i)));
@@ -190,7 +191,7 @@ public class CargadorDeArchivos {
     }
 
     public void insertPreferencias(JSONArray categorias, String usuario) throws SQLException {
-        String insertPref = "INSERT INTO preferencia (id_categoria, id_usuario) VALUES (?,?)";
+        String insertPref = "INSERT  INTO preferencia (id_categoria, id_usuario) VALUES (?,?)";
         int size =  ((JSONArray) categorias.get(0)).size();
         for (int i = 0; i < size; i++){
             String categoria = String.valueOf((Long) (((JSONArray) categorias.get(0)).get(i)));
@@ -202,7 +203,7 @@ public class CargadorDeArchivos {
     }
 
     public void insertTarjeta(JSONObject tarjeta, String usuario) throws SQLException {
-        String insertTarjeta = "INSERT INTO tarjeta (titular, numero, cvv, id_empleador) VALUES (?,?,?,?)";
+        String insertTarjeta = "INSERT  INTO tarjeta (titular, numero, cvv, id_empleador) VALUES (?,?,?,?)";
         conector.updateWithException(insertTarjeta, new String[]{
                 (String) tarjeta.get("Titular"),
                 String.valueOf((Long)tarjeta.get("numero")),

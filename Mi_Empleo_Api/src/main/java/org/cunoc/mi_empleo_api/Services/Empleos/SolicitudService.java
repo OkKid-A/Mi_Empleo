@@ -34,7 +34,7 @@ public class SolicitudService extends Service {
 
     public List<Oferta> getOfertasConSolicitud(String usuario, String estado) throws SQLException, ParseException {
         OfertaService ofertaService = new OfertaService(conector);
-        String searchQ = String.format("SELECT o.* ,u.nombre, c.nombre FROM oferta o INNER JOIN usuario u ON u.codigo = o.empresa" +
+        String searchQ = String.format("SELECT o.* ,u.nombre, u.codigo, c.nombre FROM oferta o INNER JOIN usuario u ON u.codigo = o.empresa" +
                 " INNER JOIN categoria c ON c.codigo = o.categoria INNER JOIN solicitud s ON o.codigo = s.codigo_oferta" +
                 " WHERE s.usuario = %s AND o.estado = %s",
                 usuario,

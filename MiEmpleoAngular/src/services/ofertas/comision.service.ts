@@ -15,4 +15,12 @@ export class ComisionService {
   public sumarComision(codigoOferta : string):Observable<number>{
     return this.http.post<number>(ApiUrl.API_URL+this.COMIS_URL,codigoOferta);
   }
+
+  public cambiarComision(valor: string):Observable<void>{
+    return this.http.put<void>(ApiUrl.API_URL+this.COMIS_URL,valor);
+  }
+
+  public getComision():Observable<number>{
+    return this.http.get<number>(ApiUrl.API_URL+this.COMIS_URL);
+  }
 }

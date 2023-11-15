@@ -32,9 +32,9 @@ import { EmpleadorPostulacionesViewComponent } from './Empleador/empleador-postu
 import { OfertaPostulacionesViewComponent } from './oferta/oferta-postulaciones-view/oferta-postulaciones-view.component';
 import { CandidatoCardComponent } from './Empleador/candidato-card/candidato-card.component';
 import { EmpEntrevistasViewComponent } from './Empleador/emp-entrevistas-view/emp-entrevistas-view.component';
-import { EntrevistaListComponent } from './Entrevista/entrevista-list/entrevista-list.component';
-import { EntrevistaCardComponent } from './Entrevista/entrevista-card/entrevista-card.component';
-import { EntrevistasTableComponent } from './Entrevista/entrevistas-table/entrevistas-table.component';
+import { EntrevistaListComponent } from './oferta/Entrevista/entrevista-list/entrevista-list.component';
+import { EntrevistaCardComponent } from './oferta/Entrevista/entrevista-card/entrevista-card.component';
+import { EntrevistasTableComponent } from './oferta/Entrevista/entrevistas-table/entrevistas-table.component';
 import { NotFoundComponent } from './session/not-found/not-found.component';
 import { AdminViewComponent } from './admin/admin-view/admin-view.component';
 import { AdminHeaderComponent } from './headers/admin-header/admin-header.component';
@@ -43,6 +43,10 @@ import { CrearCuentaFormComponent } from './session/crear-cuenta-form/crear-cuen
 import { ValidateFormComponent } from './session/validate-form/validate-form.component';
 import { SolicitanteFormComponent } from './session/solicitante-form/solicitante-form.component';
 import { CargadorArchivoComponent } from './admin/cargador-archivo/cargador-archivo.component';
+import { CategoriasCheckboxComponent } from './oferta/categorias-checkbox/categorias-checkbox.component';
+import { EmpleadorFormComponent } from './Empleador/empleador-form/empleador-form.component';
+import { AdminCategoriasTableComponent } from './admin/admin-categorias-list/admin-categorias-table.component';
+import { ComisionFormComponent } from './admin/comision-form/comision-form.component';
 
 @NgModule({
   declarations: [
@@ -80,7 +84,11 @@ import { CargadorArchivoComponent } from './admin/cargador-archivo/cargador-arch
     CrearCuentaFormComponent,
     ValidateFormComponent,
     SolicitanteFormComponent,
-    CargadorArchivoComponent
+    CargadorArchivoComponent,
+    CategoriasCheckboxComponent,
+    EmpleadorFormComponent,
+    AdminCategoriasTableComponent,
+    ComisionFormComponent
   ],
   imports: [
     BrowserModule,

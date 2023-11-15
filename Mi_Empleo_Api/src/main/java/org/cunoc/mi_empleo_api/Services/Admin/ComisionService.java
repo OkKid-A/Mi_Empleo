@@ -1,6 +1,7 @@
 package org.cunoc.mi_empleo_api.Services.Admin;
 
 import org.cunoc.mi_empleo_api.DB.Conector;
+import org.cunoc.mi_empleo_api.DB.DBFecha;
 import org.cunoc.mi_empleo_api.DB.DBOferta;
 import org.cunoc.mi_empleo_api.DB.FormateoDeFechas;
 import org.cunoc.mi_empleo_api.Empleo.Oferta;
@@ -23,7 +24,7 @@ public class ComisionService extends Service {
     }
 
     public float getComisionValor() throws NoExisteException {
-        String selectQ = "SELECT valor FROM parametros WHERE nombre = 'comsision'";
+        String selectQ = "SELECT valor FROM parametros WHERE nombre = 'comision'";
         ResultSet resultSet = getConector().selectFrom(selectQ);
         try {
             if (resultSet.next()) {
@@ -38,18 +39,7 @@ public class ComisionService extends Service {
     }
 
     public String getFechaDB() throws NoExisteException {
-        String selectQ = "SELECT valor FROM parametros WHERE nombre = 'fecha'";
-        ResultSet resultSet = getConector().selectFrom(selectQ);
-        try {
-            if (resultSet.next()) {
-                return resultSet.getString("valor");
-            } else {
-                return "2023-11-12";
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-            throw new NoExisteException(e.getMessage());
-        }
+        return new DBFecha(getConector()).getFechaDB();
     }
 
     public float addComision(String codigoOferta) throws NoExisteException, InvalidDataException {
@@ -68,5 +58,13 @@ public class ComisionService extends Service {
             e.printStackTrace();
             throw new InvalidDataException();
         }
+    }
+
+    public void updateComision(Float valor) throws SQLException {
+        String updateQ = "UPDATE parametros SET valor = ? WHERE nombre = ?";
+        getConector().updateWithException(updateQ,new String[]{
+                String.valueOf(valor),
+                "comision"
+        });
     }
 }

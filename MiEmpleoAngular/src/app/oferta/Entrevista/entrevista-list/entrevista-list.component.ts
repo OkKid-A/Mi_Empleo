@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
-import {Entrevista} from "../../../entities/entrevista";
-import {EntrevistaService} from "../../../services/ofertas/entrevista.service";
+import {Entrevista} from "../../../../entities/entrevista";
+import {EntrevistaService} from "../../../../services/ofertas/entrevista.service";
 import {error} from "@angular/compiler-cli/src/transformers/util";
 import {HttpErrorResponse} from "@angular/common/http";
 

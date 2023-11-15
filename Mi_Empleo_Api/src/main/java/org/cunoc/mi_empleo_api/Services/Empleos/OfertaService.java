@@ -7,7 +7,6 @@ import org.cunoc.mi_empleo_api.Empleo.Entrevista;
 import org.cunoc.mi_empleo_api.Empleo.Oferta;
 import org.cunoc.mi_empleo_api.Exceptions.InvalidDataException;
 import org.cunoc.mi_empleo_api.Exceptions.NoExisteException;
-import org.cunoc.mi_empleo_api.Services.CategoriasService;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;

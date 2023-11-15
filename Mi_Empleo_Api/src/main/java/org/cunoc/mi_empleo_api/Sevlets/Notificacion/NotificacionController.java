@@ -7,11 +7,11 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.cunoc.mi_empleo_api.DB.Conector;
 import org.cunoc.mi_empleo_api.Exceptions.InvalidDataException;
-import org.cunoc.mi_empleo_api.Services.EmpleadorService;
-import org.cunoc.mi_empleo_api.Email.Notificador;
+import org.cunoc.mi_empleo_api.Services.Usuarios.EmpleadorService;
+import org.cunoc.mi_empleo_api.Services.Email.Notificador;
 import org.cunoc.mi_empleo_api.Services.NotificacionService;
 import org.cunoc.mi_empleo_api.Services.Empleos.SolicitudService;
-import org.cunoc.mi_empleo_api.Services.UsuarioService;
+import org.cunoc.mi_empleo_api.Services.Usuarios.UsuarioService;
 import org.cunoc.mi_empleo_api.Sessions.Iniciador;
 
 import java.io.IOException;

@@ -1,16 +1,17 @@
 
-<div class="pt-5">
-  <div *ngIf="errores" class="alert alert-danger" >
+<div class="pt-5 mt-5">
+  <div *ngIf="!sinAplicar">  <div *ngIf="errores" class="alert alert-danger" >
     {{errores}}
   </div>
-  <div  *ngIf="success" class="alert alert-success">
-    Se completo la solicitud.
-  </div>
-<div class="d-flex mx-auto my my-auto align-items-center">
+    <div  *ngIf="success" class="alert alert-success">
+      Se completo la solicitud.
+    </div></div>
+
+<div class="d-flex mx-auto my-auto align-items-center">
 
   <div class="col"  >
-    <section class="py-5">
-      <div class="container px-4 px-lg-5 my-5">
+    <section class="px-5">
+      <div class="container px-4 px-lg-5 m-2">
         <div class="row gx-4 gx-lg-3 align-items-center">
           <div class="col-md-6"><img class="card-img-top mb-5 mb-md-0" src="https://dummyimage.com/600x700/dee2e6/6c757d.jpg" alt="..." /></div>
           <div class="col-md-6">
@@ -34,7 +35,7 @@
       </div>
     </section>
   </div>
-  <div class="my-auto mx-auto col-3" >
+  <div class="my-auto mx-auto col-3" *ngIf="!sinAplicar" >
     <div class="card text-center  align-content-center justify-content-center">
       <form [formGroup]="aplicarForm" (ngSubmit)="aplicarSubmit()" >
         <div class="card-body">
@@ -49,7 +50,7 @@
 
           <div *ngIf="aplicarForm.controls['mensaje'].invalid &&  (aplicarForm.controls['mensaje'].dirty || aplicarForm.controls['mensaje'].touched)"
                class="invalid-feedback">
-            Por favor ingrese una contraseña valida.
+            Por favor ingrese un mensaje valido.
           </div>
           <button type="submit" [disabled]="aplicarForm.invalid" class="btn btn-primary">Aplicar</button>
         </div>

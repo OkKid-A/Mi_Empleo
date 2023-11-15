@@ -1,12 +1,12 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
-import {Entrevista} from "../../../entities/entrevista";
-import {EntrevistaService} from "../../../services/ofertas/entrevista.service";
-import {PostulacionService} from "../../../services/ofertas/postulacion.service";
-import {NotificationService} from "../../../services/notification/notification.service";
+import {Entrevista} from "../../../../entities/entrevista";
+import {EntrevistaService} from "../../../../services/ofertas/entrevista.service";
+import {PostulacionService} from "../../../../services/ofertas/postulacion.service";
+import {NotificationService} from "../../../../services/notification/notification.service";
 import {Router} from "@angular/router";
 import {HttpErrorResponse} from "@angular/common/http";
 import {error} from "@angular/compiler-cli/src/transformers/util";
-import {ComisionService} from "../../../services/ofertas/comision.service";
+import {ComisionService} from "../../../../services/ofertas/comision.service";
 
 @Component({
   selector: 'app-entrevistas-table',

@@ -9,12 +9,12 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.apache.http.entity.ContentType;
 import org.cunoc.mi_empleo_api.DB.Conector;
-import org.cunoc.mi_empleo_api.Empleo.Oferta;
 import org.cunoc.mi_empleo_api.Exceptions.InvalidDataException;
 import org.cunoc.mi_empleo_api.Exceptions.NoExisteException;
-import org.cunoc.mi_empleo_api.Services.UsuarioService;
+import org.cunoc.mi_empleo_api.Services.Usuarios.UsuarioService;
 import org.cunoc.mi_empleo_api.Sessions.Autenticador;
 import org.cunoc.mi_empleo_api.Sessions.Iniciador;
+import org.cunoc.mi_empleo_api.Usuario.Empleador.Tarjeta;
 import org.cunoc.mi_empleo_api.Usuario.Usuario;
 
 import java.io.IOException;
@@ -68,12 +68,13 @@ public class UsuarioController extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         Conector conector = new Iniciador().getConector(resp,req);
         String rol = req.getParameter("rol");
-        String codigoUsuario = req.getParameter("usuario");
+        String codigoUsuario = req.getParameter("codigo");
         Autenticador autenticador = new Autenticador(conector);
         try {
         if (rol!=null&&codigoUsuario!=null){
             ObjectMapper objectMapper = new ObjectMapper().registerModule(new JavaTimeModule());
             boolean existe = autenticador.verificarCompletado(rol,codigoUsuario);
+            System.out.println(existe);
             objectMapper.writeValue(resp.getWriter(), existe);
             resp.setStatus(HttpServletResponse.SC_ACCEPTED);
         }} catch (SQLException e) {

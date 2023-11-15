@@ -1,13 +1,11 @@
-package org.cunoc.mi_empleo_api.Services;
+package org.cunoc.mi_empleo_api.Services.Usuarios;
 
-import com.mysql.cj.util.DnsSrv;
 import org.cunoc.mi_empleo_api.DB.Conector;
 import org.cunoc.mi_empleo_api.DB.FormateoDeFechas;
-import org.cunoc.mi_empleo_api.Email.Notificador;
+import org.cunoc.mi_empleo_api.Services.Email.Notificador;
 import org.cunoc.mi_empleo_api.Exceptions.InvalidDataException;
 import org.cunoc.mi_empleo_api.Exceptions.NoExisteException;
 import org.cunoc.mi_empleo_api.Sessions.Autenticador;
-import org.cunoc.mi_empleo_api.Usuario.TipoUsuario;
 import org.cunoc.mi_empleo_api.Usuario.Usuario;
 
 import java.sql.ResultSet;

@@ -1,8 +1,9 @@
 package org.cunoc.mi_empleo_api.Services;
 
 import org.cunoc.mi_empleo_api.DB.Conector;
-import org.cunoc.mi_empleo_api.Email.Notificador;
+import org.cunoc.mi_empleo_api.Services.Email.Notificador;
 import org.cunoc.mi_empleo_api.Exceptions.InvalidDataException;
+import org.cunoc.mi_empleo_api.Services.Usuarios.UsuarioService;
 
 import java.sql.SQLException;
 import java.util.List;

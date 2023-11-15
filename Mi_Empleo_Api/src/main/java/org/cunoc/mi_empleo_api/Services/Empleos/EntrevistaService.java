@@ -7,12 +7,10 @@ import org.cunoc.mi_empleo_api.Empleo.EstadoEntrevista;
 import org.cunoc.mi_empleo_api.Exceptions.InvalidDataException;
 import org.cunoc.mi_empleo_api.Exceptions.NoExisteException;
 import org.cunoc.mi_empleo_api.Services.Service;
-import org.cunoc.mi_empleo_api.Services.UsuarioService;
-import org.cunoc.mi_empleo_api.Usuario.Usuario;
+import org.cunoc.mi_empleo_api.Services.Usuarios.UsuarioService;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -57,22 +55,11 @@ public class EntrevistaService extends Service {
 
     public List<Entrevista> getAllEntrevistasOferta(String codigoOferta) throws NoExisteException {
         String selectQ = "SELECT * FROM entrevista WHERE codigo_oferta = "+codigoOferta;
-        UsuarioService usuarioService = new UsuarioService(getConector());
         ResultSet resultSet = getConector().selectFrom(selectQ);
         List<Entrevista> entrevistas = new ArrayList<>();
         try {
             while (resultSet.next()){
-                entrevistas.add(new Entrevista(
-                    resultSet.getInt("codigo"),
-                        resultSet.getInt("solicitante"),
-                        resultSet.getDate("fecha"),
-                        resultSet.getTime("hora"),
-                        resultSet.getString("estado"),
-                        resultSet.getString("ubicacion"),
-                        resultSet.getString("notas"),
-                        resultSet.getInt("codigo_oferta"),
-                        usuarioService.getNombreByID(String.valueOf(resultSet.getInt("solicitante")))
-                ));
+                entrevistas.add(registrarEntrevista(resultSet));
             }
             return entrevistas;
         } catch (SQLException e) {
@@ -103,5 +90,36 @@ public class EntrevistaService extends Service {
         getConector().updateWithException(deleteQ, new String[]{
                 String.valueOf(codigo)
         });
+    }
+
+    public List<Entrevista> getEntrevistasByUsuario(String codigoUsuario) throws InvalidDataException {
+        String selectQ = "SELECT * FROM entrevista WHERE solicitante = %s AND estado = %s";
+        selectQ = String.format(selectQ,codigoUsuario,getConector().encomillar(String.valueOf(EstadoEntrevista.PENDIENTE)));
+        ResultSet resultSet = getConector().selectFrom(selectQ);
+        List<Entrevista> entrevistas = new ArrayList<>();
+        try {
+            while (resultSet.next()) {
+                entrevistas.add(registrarEntrevista(resultSet));
+            }
+            return entrevistas;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new InvalidDataException();
+        }
+    }
+
+    public Entrevista registrarEntrevista(ResultSet resultSet) throws SQLException {
+        UsuarioService usuarioService = new UsuarioService(getConector());
+        return new Entrevista(
+                resultSet.getInt("codigo"),
+                resultSet.getInt("solicitante"),
+                resultSet.getDate("fecha"),
+                resultSet.getTime("hora"),
+                resultSet.getString("estado"),
+                resultSet.getString("ubicacion"),
+                resultSet.getString("notas"),
+                resultSet.getInt("codigo_oferta"),
+                usuarioService.getNombreByID(String.valueOf(resultSet.getInt("solicitante")))
+        );
     }
 }

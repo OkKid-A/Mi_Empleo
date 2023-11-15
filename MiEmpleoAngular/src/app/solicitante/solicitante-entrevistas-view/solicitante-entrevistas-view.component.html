@@ -1,0 +1,46 @@
+<div class="pt-5 m-5 d-flex" >
+  <div class="container-fluid   w-50 mx-auto " >
+    <h1 class="text-center " > Entrevistas Pendientes</h1>
+    <div class=" pt-2 justify-content-center">
+      <div class="container-fluid">
+        <div >
+          <table id="listado" class="pt-5 table table-bordered table-striped" style="">
+            <thead>
+            <tr>
+              <th>Nombre</th>
+              <th>Fecha</th>
+              <th>Hora</th>
+              <th>Ubicacion</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let entrevista of entrevistas">
+              <td><a class="link-opacity-100-hover" (click)="seleccionarEntrevista(entrevista,modal)">
+                {{entrevista.codigo}}</a></td>
+              <td>{{entrevista.fecha}}</td>
+              <td>{{entrevista.hora}}</td>
+              <td>{{entrevista.ubicacion}}</td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<ng-template #modal>
+
+  <div class="modal-content" style="width: 1000px">
+    <div class="modal-header">
+      <h4 class="modal-title" id="finalizarTitle">Detalles de la oferta</h4>
+    </div>
+    <div class="modal-body mx-auto">
+      <app-oferta-view [sinAplicar]="true" [oferta]="oferta"></app-oferta-view>
+    </div>
+    <div class="modal-footer" >
+      <button type="button" class="close pull-right btn btn-danger" (click)="modalRef.hide()">Cerrar</button>
+    </div>
+  </div>
+
+</ng-template>
+

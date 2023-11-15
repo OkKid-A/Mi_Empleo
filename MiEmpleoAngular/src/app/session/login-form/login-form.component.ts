@@ -43,6 +43,7 @@ export class LoginFormComponent implements OnInit{
           this.limpiar();
         },
         error: (error: any) => {
+          alert("El usuario no fue encontrado.")
           console.log("error");
         }
       })

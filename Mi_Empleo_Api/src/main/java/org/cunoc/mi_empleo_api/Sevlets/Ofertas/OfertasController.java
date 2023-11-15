@@ -26,7 +26,7 @@ public class OfertasController extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        OfertaService ofertaService = new OfertaService(new Iniciador().getConector(resp,req));
+        OfertaService ofertaService = new OfertaService(new Conector());
         List<Oferta> ofertas = new ArrayList<>();
             try {
                 if (req.getParameter("estado") != null){

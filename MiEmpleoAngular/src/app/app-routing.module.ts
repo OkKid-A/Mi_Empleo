@@ -19,7 +19,7 @@ import {
 } from "./Empleador/empleador-postulaciones-view/empleador-postulaciones-view.component";
 import {OfertaPostulacionesViewComponent} from "./oferta/oferta-postulaciones-view/oferta-postulaciones-view.component";
 import {EmpEntrevistasViewComponent} from "./Empleador/emp-entrevistas-view/emp-entrevistas-view.component";
-import {EntrevistaListComponent} from "./Entrevista/entrevista-list/entrevista-list.component";
+import {EntrevistaListComponent} from "./oferta/Entrevista/entrevista-list/entrevista-list.component";
 import {solicitanteGuard} from "./Guards/solicitante.guard";
 import {NotFoundComponent} from "./session/not-found/not-found.component";
 import {empleadorGuard} from "./Guards/empleador.guard";
@@ -31,6 +31,9 @@ import {ValidateFormComponent} from "./session/validate-form/validate-form.compo
 import {isCompletedGuard} from "./Guards/is-completed.guard";
 import {SolicitanteFormComponent} from "./session/solicitante-form/solicitante-form.component";
 import {CargadorArchivoComponent} from "./admin/cargador-archivo/cargador-archivo.component";
+import {EmpleadorFormComponent} from "./Empleador/empleador-form/empleador-form.component";
+import {AdminCategoriasTableComponent} from "./admin/admin-categorias-list/admin-categorias-table.component";
+import {ComisionFormComponent} from "./admin/comision-form/comision-form.component";
 
 const routes: Routes = [
   {
@@ -64,14 +67,16 @@ const routes: Routes = [
     component : AdminViewComponent,
     canMatch: [adminGuard],
     children: [
-      {path: 'dashboard', component: AdminDashboardComponent}
+      {path: 'dashboard', component: AdminDashboardComponent},
+      {path: 'categorias', component: AdminCategoriasTableComponent},
+      {path: 'comision',component: ComisionFormComponent}
     ]
   },
   {
     path: 'empleador',
     title: "Inicio",
     component: EmpleadorViewComponent,
-    canMatch: [empleadorGuard],
+    canMatch: [empleadorGuard,isCompletedGuard],
     children:[
       {path: 'inicio',component: EmpleadorOfertasViewComponent},
       {path: 'nueva-oferta',component: NuevaOfertaFormComponent},
@@ -83,10 +88,16 @@ const routes: Routes = [
     ]
   },
   {
+    path: 'empleador',
+    title: "Completar Cuenta",
+    canMatch:[empleadorGuard],
+    component: EmpleadorFormComponent
+  },
+  {
     path: 'solicitante',
     title: "Inicio",
     component: SolicitanteViewComponent,
-    canMatch: [solicitanteGuard],
+    canMatch: [solicitanteGuard, isCompletedGuard],
     children: [
       {path: 'busqueda',component:SolicitanteBuscadorComponent, title: "Busqueda"},
       {path: 'oferta/:codigo', component: OfertaViewComponent},

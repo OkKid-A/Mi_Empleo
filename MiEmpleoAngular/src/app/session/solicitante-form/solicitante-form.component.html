@@ -1,0 +1,32 @@
+<div class="pt-5" >
+  <div class="container blue" >
+    <h1 class="text-center" >Completa la informacion de tu usuario</h1>
+    <div class="row justify-content-center">
+      <div class=" col-md-5 mx-auto justify-content-center">
+        <div class=" justify-content-center" style="background-color: #ffffff">
+          <hr>
+          <div class="form-group required">
+            <label class="text"> Selecciona el pdf de tu CV</label>
+          </div>
+          <div class="input-group custom-file-button">
+            <input type="file" accept="application/pdf" id="pathfile" class="input-group-text" (change)="createFile($event)" required>
+            <label class="form-control" for="pathfile">Escoge tu Archivo...</label>
+          </div>
+          <div class=" row pt-lg-5">
+            <div>
+              <label class="text">Selecciona las categorias que prefieres:</label>
+
+            </div>
+            <app-categorias-checkbox *ngFor="let categoria of categorias" [categoria]="categoria" (seleccionada)="cambiarCateSeleccionadas($event)" ></app-categorias-checkbox>
+          </div>
+          <div class="justify-content-center text-xl-center row">
+            <button (click)="subirDatos()" (invalid)="invalidar()" class="btn btn-dark btn-block">Confirmar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="pb-5 pt-lg-5 text-center">
+  <label class="text-align-center copyright"> @ 2023 Gomu Gomu no Code</label>
+</div>

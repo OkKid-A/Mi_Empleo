@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {Oferta} from "../../../entities/oferta";
 import {OfertaService} from "../../../services/ofertas/oferta.service";
 import {ActivatedRoute} from "@angular/router";
@@ -15,10 +15,11 @@ import {HttpErrorResponse} from "@angular/common/http";
 export class OfertaViewComponent implements OnInit{
   errores! : string
   codigo! : string
-  oferta! : Oferta;
+  @Input()oferta! : Oferta;
   aplicarForm! : FormGroup
   solicitud! : Solicitud
   success! : boolean
+  @Input()sinAplicar : boolean = false;
   constructor(private route: ActivatedRoute,
               private  ofertaSerice : OfertaService,
               private solicitudServices: SolicitudService,
@@ -31,14 +32,18 @@ export class OfertaViewComponent implements OnInit{
   }
 
   ngOnInit(): void {
-    this.ofertaSerice.getOfertaById(this.codigo).subscribe((oferta : Oferta) => {
-      this.oferta = oferta;
-    })
-    this.aplicarForm = this.fB.group({
-      codigo_oferta : this.codigo,
+    if (this.sinAplicar){
+
+    } else {
+      this.ofertaSerice.getOfertaById(this.codigo).subscribe((oferta: Oferta) => {
+        this.oferta = oferta;
+      })
+      this.aplicarForm = this.fB.group({
+        codigo_oferta: this.codigo,
         usuario: localStorage.getItem("usuarioActual"),
-      mensaje : [null,[Validators.required, Validators.maxLength(256)]]
-    });
+        mensaje: [null, [Validators.required, Validators.maxLength(256)]]
+      });
+    }
   }
 
   aplicarSubmit(): void{
@@ -48,7 +53,11 @@ export class OfertaViewComponent implements OnInit{
     this.success = true}
       ,
       (err:HttpErrorResponse) =>{
-      alert(err.message)
+      if (err.status===404){
+        alert("Ya existe una aplicacion")
+      } else {
+        alert(err.message)
+      }
         this.aplicarForm.reset()
       }
     );

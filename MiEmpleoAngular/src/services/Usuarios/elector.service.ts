@@ -2,13 +2,14 @@ import { Injectable } from '@angular/core';
 import {Roles} from "../../share/roles";
 import {Router} from "@angular/router";
 import {HttpClient, HttpErrorResponse} from "@angular/common/http";
-import {Observable} from "rxjs";
+import {Observable, of} from "rxjs";
 import {ApiUrl} from "../../share/api-url";
 
 @Injectable({
   providedIn: 'root'
 })
 export class ElectorService {
+
 
   constructor(private router:Router,
               private http: HttpClient) { }
@@ -24,7 +25,7 @@ export class ElectorService {
       this.router.navigate(['solicitante'])
       console.log(rol)
     } else if (rol === Roles.EMPLEADOR){
-      this.router.navigate(['empleador/inicio'])
+      this.router.navigate(['empleador'])
     } else if (rol === Roles.ADMIN){
       this.router.navigate(['admin/dashboard'])
     }
@@ -35,20 +36,11 @@ export class ElectorService {
     localStorage.setItem("permisoActual",rol);
   }
 
-  public verificarCompletado(): boolean{
+
+
+  public revisarUsuario():Observable<boolean>{
     const rol = localStorage.getItem("permisoActual")??"";
     const usuario = localStorage.getItem("usuarioActual")??"";
-      this.revisarUsuario(rol,usuario).subscribe({
-        next: (existe) => {
-          return existe;
-        },error(error:HttpErrorResponse){
-          return false
-        }
-      })
-    return false;
-  }
-
-  public revisarUsuario(rol:string, usuario:string):Observable<boolean>{
     return this.http.get<boolean>(ApiUrl.API_URL+"usuario?rol="+rol+"&codigo="+usuario);
   }
 
