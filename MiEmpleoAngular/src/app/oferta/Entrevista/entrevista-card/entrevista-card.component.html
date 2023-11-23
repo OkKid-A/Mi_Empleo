@@ -33,7 +33,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="close pull-right btn btn-danger" (click)="modalRef.hide()" >Cancelar</button>
+                <button type="button" class="close pull-right btn btn-danger" (click)="modalRef.hide();notasForm.reset()" >Cancelar</button>
                 <button type="submit" class="btn btn-primary" (click)="modalRef.hide()">Finalizar</button>
             </div></form>
     </div>

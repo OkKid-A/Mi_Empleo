@@ -8,13 +8,10 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.apache.http.entity.ContentType;
-import org.cunoc.mi_empleo_api.DB.DBOferta;
 import org.cunoc.mi_empleo_api.Empleo.Entrevista;
-import org.cunoc.mi_empleo_api.Empleo.Oferta;
 import org.cunoc.mi_empleo_api.Exceptions.InvalidDataException;
 import org.cunoc.mi_empleo_api.Exceptions.NoExisteException;
 import org.cunoc.mi_empleo_api.Services.Empleos.EntrevistaService;
-import org.cunoc.mi_empleo_api.Sessions.Iniciador;
 
 import java.io.IOException;
 import java.util.List;
@@ -24,7 +21,7 @@ public class EntrevistaController extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        EntrevistaService entrevistaService = new EntrevistaService(new Iniciador().getConector(resp,req));
+        EntrevistaService entrevistaService = new EntrevistaService();
         String oferta = req.getParameter("oferta");
         String ofertas = req.getParameter("ofertas");
         String usuario = req.getParameter("usuario");
@@ -61,7 +58,7 @@ public class EntrevistaController extends HttpServlet {
         ObjectMapper objectMapper = new ObjectMapper().registerModule(new JavaTimeModule());
         Entrevista entrevista = objectMapper.readValue(req.getInputStream(), Entrevista.class);
         resp.setContentType(ContentType.APPLICATION_JSON.getMimeType());
-        EntrevistaService entrevistaService = new EntrevistaService(new Iniciador().getConector(resp,req));
+        EntrevistaService entrevistaService = new EntrevistaService();
         try {
             entrevista = entrevistaService.crearEntrevista(entrevista);
             objectMapper.writeValue(resp.getWriter(),entrevista);
@@ -73,7 +70,7 @@ public class EntrevistaController extends HttpServlet {
 
     @Override
     protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        EntrevistaService entrevistaService = new EntrevistaService(new Iniciador().getConector(resp,req));
+        EntrevistaService entrevistaService = new EntrevistaService();
         ObjectMapper objectMapper = new ObjectMapper().registerModule(new JavaTimeModule());
         Entrevista entrevista = objectMapper.readValue(req.getInputStream(),Entrevista.class);
         resp.setContentType(ContentType.APPLICATION_JSON.getMimeType());

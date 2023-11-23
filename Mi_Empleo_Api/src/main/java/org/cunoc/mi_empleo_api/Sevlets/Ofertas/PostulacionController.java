@@ -8,14 +8,11 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.apache.http.entity.ContentType;
-import org.cunoc.mi_empleo_api.DB.Conector;
-import org.cunoc.mi_empleo_api.DB.DBOferta;
-import org.cunoc.mi_empleo_api.Empleo.Entrevista;
 import org.cunoc.mi_empleo_api.Empleo.Oferta;
+import org.cunoc.mi_empleo_api.Exceptions.InvalidDataException;
 import org.cunoc.mi_empleo_api.Exceptions.NoExisteException;
 import org.cunoc.mi_empleo_api.Services.Empleos.OfertaService;
 import org.cunoc.mi_empleo_api.Services.Empleos.PostulacionService;
-import org.cunoc.mi_empleo_api.Sessions.Iniciador;
 import org.cunoc.mi_empleo_api.Usuario.Solicitante.Postulacion;
 
 import java.io.IOException;
@@ -29,7 +26,7 @@ public class PostulacionController extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String empleador = req.getParameter("empleador");
         String oferta = req.getParameter("oferta");
-        PostulacionService postulacionService = new PostulacionService(new Iniciador().getConector(resp,req));
+        PostulacionService postulacionService = new PostulacionService();
         List<Postulacion> postulaciones;
         try {
             if (empleador != null&&oferta!=null) {
@@ -49,8 +46,7 @@ public class PostulacionController extends HttpServlet {
 
     @Override
     protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        Conector conector = new Iniciador().getConector(resp,req);
-        OfertaService ofertaService = new OfertaService(conector);
+        OfertaService ofertaService = new OfertaService();
         String nuevoEstado = req.getParameter("estado");
         try {
             ObjectMapper objectMapper = new ObjectMapper().registerModule(new JavaTimeModule());
@@ -67,7 +63,7 @@ public class PostulacionController extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        PostulacionService postulacionService = new PostulacionService(new Iniciador().getConector(resp,req));
+        PostulacionService postulacionService = new PostulacionService();
         String usuario = req.getParameter("usuario");
         ObjectMapper objectMapper = new ObjectMapper().registerModule(new JavaTimeModule());
         String codOferta = objectMapper.readValue(req.getInputStream(), String.class);
@@ -79,6 +75,12 @@ public class PostulacionController extends HttpServlet {
                 resp.setStatus(HttpServletResponse.SC_CREATED);
             }
         } catch (NoExisteException e) {
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+            resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
+        } catch (InvalidDataException e) {
+            System.out.println(e.getMessage());
+            e.printStackTrace();
             resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
         }
     }

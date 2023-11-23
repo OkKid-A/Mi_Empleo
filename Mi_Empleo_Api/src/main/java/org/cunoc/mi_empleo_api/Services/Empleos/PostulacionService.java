@@ -1,9 +1,9 @@
 package org.cunoc.mi_empleo_api.Services.Empleos;
 
-import org.cunoc.mi_empleo_api.DB.Conector;
 import org.cunoc.mi_empleo_api.DB.DBOferta;
 import org.cunoc.mi_empleo_api.Empleo.EstadoOferta;
 import org.cunoc.mi_empleo_api.Empleo.Oferta;
+import org.cunoc.mi_empleo_api.Exceptions.InvalidDataException;
 import org.cunoc.mi_empleo_api.Exceptions.NoExisteException;
 import org.cunoc.mi_empleo_api.Services.Service;
 import org.cunoc.mi_empleo_api.Services.Usuarios.UsuarioService;
@@ -18,36 +18,30 @@ public class PostulacionService extends Service {
 
     private DBOferta dbOferta;
     private UsuarioService usuarioService;
-    public PostulacionService(Conector conector) {
-        super(conector);
-        this.dbOferta = new DBOferta(getConector());
-        this.usuarioService  = new UsuarioService(getConector());
+    public PostulacionService() {
+        this.dbOferta = new DBOferta();
+        this.usuarioService  = new UsuarioService();
     }
 
-    public Oferta asignarGanadorAOferta(String ganador, String codigoOferta) throws NoExisteException {
-        String updateQ = "UPDATE oferta SET ganador = ? WHERE codigo = ?";
-        try {
-            getConector().updateWithException(updateQ, new String[]{
-                    ganador,
-                    codigoOferta
-            });
-            dbOferta = new DBOferta(new Conector());
-            Oferta oferta = dbOferta.buscarByCodigo(Integer.parseInt(codigoOferta));
-            dbOferta.cambiarEstadoDeOferta(oferta, String.valueOf(EstadoOferta.FINALIZADA));
-            return oferta;
-        } catch (SQLException e) {
-            e.printStackTrace();
+    public Oferta asignarGanadorAOferta(String ganador, String codigoOferta) throws NoExisteException, InvalidDataException {
+        Oferta oferta = dbOferta.buscarByCodigo(Integer.parseInt(codigoOferta));
+        if (oferta!=null||oferta.getGanador()!=0){
+            dbOferta.asignarGanadorDeOferta(ganador,codigoOferta);
+        } else {
             throw new NoExisteException("No existe la oferta "+codigoOferta);
         }
+        return oferta;
     }
 
     public List<Postulacion> getCandidatosOfertaByOFerta(String empleador, String oferta) throws SQLException {
         List<Postulacion> postulaciones = new ArrayList<>();
-        String selectQ = String.format("SELECT o.* ,u.*, s.* FROM solicitud s INNER JOIN usuario u ON u.codigo = s.usuario" +
-                " INNER JOIN oferta o ON s.codigo_oferta = o.codigo WHERE s.codigo_oferta = %s AND" +
-                        " s.usuario NOT IN (SELECT solicitante FROM entrevista WHERE codigo_oferta = %s)",
-                oferta,oferta);
-        ResultSet resultSet = getConector().selectFrom(selectQ);
+        String selectQ = "SELECT o.* ,u.*, s.* FROM solicitud s INNER JOIN usuario u ON u.codigo = s.usuario" +
+                " INNER JOIN oferta o ON s.codigo_oferta = o.codigo WHERE s.codigo_oferta = ? AND" +
+                        " s.usuario NOT IN (SELECT solicitante FROM entrevista WHERE codigo_oferta = ?)";
+        ResultSet resultSet = getDBStatements().select(selectQ, new String[]{
+                oferta,
+                oferta
+        });
         while (resultSet.next()){
             postulaciones.add(crearPostulacionFromDB(resultSet));
         }

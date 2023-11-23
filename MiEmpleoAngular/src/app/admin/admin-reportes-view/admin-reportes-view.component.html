@@ -1,0 +1,68 @@
+<div class="flex header-main border-bottom bg-white mx-auto align-content-center">
+  <div class="container-fluid row">
+    <form [formGroup]="reportForm"
+          class="buscador"
+          (ngSubmit)="onCrearSubmit()" >
+      <div class="row p-2 pt-4 mt-5 pb-3 d-flex justify-content-center">
+        <div class="col-md-6">
+          <div class="d-flex form-inputs">
+            <label for="tipo">Tipo de reporte:</label>
+            <select (change)="changeReport()"  class="form-control col-2 w-75 buscadorFiltro px-2" id="tipo"
+                    formControlName = "tipo">
+              <option value="0" [selected]="true">Escoge el tipo de reporte:</option>
+              <option value="0">Top 5 empleadores con mas ofertas publicadas.</option>
+              <option value="1">Top 5 empleadores que más ingresos han generado.</option>
+              <option value="2">Total de ingresos por categoria</option>
+            </select>
+            <a class="btn btn-dark mx-2" (click)="onCrearSubmit()">
+              <i class="fa pt-1">Mostrar</i>
+            </a>
+            <a class="btn btn-dark mx-2" (click)="descargarReport()" *ngIf="reportExists">
+              <i class="fa fa-file-pdf-o pt-1">Descargar</i>
+            </a>
+          </div>
+        </div>
+      </div>
+      <div class=" d-flex" *ngIf="tipo==1||tipo==2">
+        <div class="form-group mx-auto row">
+          <div class="col">
+            <label class="text">Fecha Inicial De Reporte</label>
+            <input class="form-control"  formControlName = "fechaInicial" type="date"
+                   [class.is-invalid]="reportForm.controls['fechaInicial'].invalid && reportForm.controls['fechaInicial'].touched">
+            <div *ngIf="reportForm.controls['fechaInicial'].invalid &&  (reportForm.controls['fechaInicial'].dirty || reportForm.controls['fechaInicial'].touched)"
+                 class="invalid-feedback">
+              Por favor ingresa una fecha.
+            </div>
+          </div>
+          <div class="col">
+            <label class="text">Fecha Final De Reporte</label>
+            <input class="form-control"  formControlName = "fechaFinal" type="date"
+                   [class.is-invalid]="reportForm.controls['fechaFinal'].invalid && reportForm.controls['fechaFinal'].touched">
+            <div *ngIf="reportForm.controls['fechaFinal'].invalid &&  (reportForm.controls['fechaFinal'].dirty || reportForm.controls['fechaFinal'].touched)"
+                 class="invalid-feedback">
+              Por favor ingresa una fecha.
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+
+    <div ></div>
+  </div>
+  <div class="row mx-auto w-75">
+    <ngx-extended-pdf-viewer *ngIf="reportExists" [src]="reportUrl"
+                              [height]="'80vh'"
+                              [showHandToolButton]="true"
+                              [showSidebarButton]="true"
+                              [showZoomButtons]="true"
+                              [showPresentationModeButton]="true"
+                              [showSecondaryToolbarButton]="true"
+                              [showRotateButton]="true"
+                              [showPagingButtons]="true"
+                              [showSpreadButton]="true"
+                              [showPropertiesButton]="true"
+                              [showFindButton]="true"
+                              [textLayer]="true">
+    </ngx-extended-pdf-viewer>
+  </div>
+</div>

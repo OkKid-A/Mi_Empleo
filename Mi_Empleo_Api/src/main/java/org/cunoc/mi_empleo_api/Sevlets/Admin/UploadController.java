@@ -8,7 +8,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.Part;
 import org.cunoc.mi_empleo_api.Archivos.Lector;
-import org.cunoc.mi_empleo_api.DB.Conector;
 import org.cunoc.mi_empleo_api.Exceptions.InvalidDataException;
 import org.cunoc.mi_empleo_api.Archivos.CargadorDeArchivos;
 import org.json.simple.parser.ParseException;
@@ -27,19 +26,15 @@ public class UploadController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         Part part = req.getPart(PART_NAME);
-        Conector conector = new Conector();
-        CargadorDeArchivos cargadorArchivo = new CargadorDeArchivos(conector);
+        CargadorDeArchivos cargadorArchivo = new CargadorDeArchivos();
         System.out.println("Working Directory = " + System.getProperty("user.dir"));
         try {
-            Lector lector = new Lector(conector);
+            Lector lector = new Lector();
             if (part!=null) {
                 cargadorArchivo.cargarArchivo(lector.getBufferedReaderFromFile(part));
             } else {
                 throw new InvalidDataException();
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
-            resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
         } catch (ParseException | InvalidDataException e) {
             e.printStackTrace();
             resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);

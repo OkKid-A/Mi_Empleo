@@ -1,6 +1,10 @@
 package org.cunoc.mi_empleo_api.Archivos;
 
-import org.cunoc.mi_empleo_api.DB.Conector;
+
+import org.cunoc.mi_empleo_api.DB.ConectorSingleton;
+
+import org.cunoc.mi_empleo_api.DB.DBStatements;
+import org.cunoc.mi_empleo_api.Exceptions.InvalidDataException;
 import org.cunoc.mi_empleo_api.Usuario.TipoUsuario;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -9,21 +13,26 @@ import org.json.simple.parser.ParseException;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.sql.Connection;
 import java.sql.SQLException;
 
 public class CargadorDeArchivos {
 
     private BufferedReader neededReader;
-    private Conector conector;
     private JSONParser jsonParser;
+    private Connection connection;
+    private DBStatements dbStatements;
+    private int linea;
 
 
-    public CargadorDeArchivos(Conector conector) {
-        this.conector = conector;
+    public CargadorDeArchivos() {
         this.jsonParser = new JSONParser();
+        connection = ConectorSingleton.getInstance().getConnection();
+        this.dbStatements = new DBStatements(connection);
+        this.linea = 0;
     }
 
-    public void cargarArchivo(BufferedReader reader) throws IOException, ParseException, SQLException {
+    public void cargarArchivo(BufferedReader reader) throws IOException, ParseException, InvalidDataException {
         Object datos =  jsonParser.parse(reader);
         JSONObject jsonObject = (JSONObject) datos;
         JSONObject adminList = (JSONObject) jsonObject.get("admin");
@@ -31,11 +40,31 @@ public class CargadorDeArchivos {
         JSONArray empleadoresList = convertirArray(jsonObject.get("empleadores"));
         JSONArray usuariosList = convertirArray(jsonObject.get("usuarios"));
         JSONArray ofertasList = convertirArray(jsonObject.get("ofertas"));
-        ingresarAdmin(adminList);
-        ingresarCategorias(categoriasList);
-       ingresarSolicitantes(usuariosList);
-        ingresarEmpleadores(empleadoresList);
-        ingresarOfertas(ofertasList);
+        try {
+            connection.setAutoCommit(false);
+            ingresarAdmin(adminList);
+            ingresarCategorias(categoriasList);
+            ingresarSolicitantes(usuariosList);
+            ingresarEmpleadores(empleadoresList);
+            ingresarOfertas(ofertasList);
+            connection.commit();
+        } catch (SQLException e) {
+            System.out.println("Hubo un error al leer el objeto numero: "+linea+"\n"+e.getMessage());
+            try {
+                connection.rollback();
+            } catch (SQLException ex) {
+                System.out.println("fallo el rollback, se llenaron los cambios hasta el objeto"+ linea);
+            }
+            throw new InvalidDataException();
+        } finally {
+            if (connection!= null) {
+                try {
+                    connection.close();
+                } catch (SQLException e) {
+                    System.out.println("No se pudo cerrar la conexion para la query:" + e.getMessage());
+                }
+            }
+        }
     }
 
     public void ingresarAdmin(JSONObject admin) throws SQLException {
@@ -46,8 +75,9 @@ public class CargadorDeArchivos {
         String insertCategorias = "INSERT  INTO categoria (codigo, nombre, descripcion) VALUES (?,?,?)";
         int size = ((JSONArray)categorias.get(0)).size();
         for (int i = 0; i < size; i++){
+            linea++;
             JSONObject categoria = ((JSONObject) (((JSONArray)categorias.get(0)).get(i)));
-            conector.updateWithException(insertCategorias, new String[]{
+            dbStatements.updateWithException(insertCategorias, new String[]{
                     String.valueOf((Long)categoria.get("codigo")),
                     (String) categoria.get("nombre"),
                     (String) categoria.get("descripcion")
@@ -59,13 +89,14 @@ public class CargadorDeArchivos {
         String insertSolicitante = "INSERT  INTO solicitante (codigo_usuario, cv_path) VALUES (?,?)";
         int size = ((JSONArray) usuarios.get(0)).size();
         for (int i = 0; i < size; i++) {
+            linea++;
             JSONObject usuario = ((JSONObject) (((JSONArray)usuarios.get(0)).get(i)));
             ingresarUsuario(usuario,0);
             JSONArray telfonos = convertirArray(usuario.get("telefonos"));
             insertTelefonos(telfonos, String.valueOf((Long)usuario.get("codigo")));
             JSONArray categorias = convertirArray(usuario.get("categorias"));
             insertPreferencias(categorias, String.valueOf((Long)usuario.get("codigo")));
-            conector.updateWithException(insertSolicitante,new String[]{
+            dbStatements.updateWithException(insertSolicitante,new String[]{
                     String.valueOf((Long)usuario.get("codigo")),
                     (String) usuario.get("curriculum")
             });
@@ -76,12 +107,13 @@ public class CargadorDeArchivos {
         String insertEmpleadores = "INSERT INTO empleador (codigo_usuario, vision, mision) VALUES (?,?,?)";
         int size = ((JSONArray) empleadores.get(0)).size();
         for (int i = 0; i < size; i++) {
+            linea++;
             JSONObject usuario = ((JSONObject) (((JSONArray)empleadores.get(0)).get(i)));
             ingresarUsuario(usuario,1);
             JSONArray telfonos = convertirArray(usuario.get("telefonos"));
             insertTelefonos(telfonos, String.valueOf((Long)usuario.get("codigo")));
             insertTarjeta((JSONObject) usuario.get("tarjeta"),String.valueOf((Long)usuario.get("codigo")));
-            conector.updateWithException(insertEmpleadores, new String[]{
+            dbStatements.updateWithException(insertEmpleadores, new String[]{
                      String.valueOf((Long)usuario.get("codigo")),
                     (String) usuario.get("vision"),
                     (String) usuario.get("mision")
@@ -94,8 +126,9 @@ public class CargadorDeArchivos {
                 " fecha_limite, salario, modalidad, ubicacion, detalles, ganador) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)";
         int size = ((JSONArray) ofertas.get(0)).size();
         for (int i = 0; i < size; i++) {
+            linea++;
             JSONObject oferta = ((JSONObject) (((JSONArray) ofertas.get(0)).get(i)));
-            conector.updateWithException(insertOferta, new String[]{
+            dbStatements.updateWithException(insertOferta, new String[]{
                     String.valueOf((Long)oferta.get("codigo")),
                     (String) oferta.get("nombre"),
                     (String) oferta.get("descripcion"),
@@ -124,8 +157,9 @@ public class CargadorDeArchivos {
                 "notas) VALUES (?,?,?,?,?,?,?)";
         int size = ((JSONArray) entrevistas.get(0)).size();
         for (int i = 0; i < size; i++) {
+            linea++;
             JSONObject entrevista = ((JSONObject) (((JSONArray) entrevistas.get(0)).get(i)));
-            conector.updateWithException(insertEntrevistas, new String[]{
+            dbStatements.updateWithException(insertEntrevistas, new String[]{
                     oferta,
                     String.valueOf((Long)entrevista.get("usuario")),
                     (String) entrevista.get("fecha"),
@@ -142,8 +176,9 @@ public class CargadorDeArchivos {
         String insertSolicitud = "INSERT  INTO solicitud (codigo_oferta, usuario, mensaje) VALUES (?,?,?)";
         int size = ((JSONArray) solicitudes.get(0)).size();
         for (int i = 0; i < size; i++) {
+            linea++;
             JSONObject solicitud = ((JSONObject) (((JSONArray) solicitudes.get(0)).get(i)));
-            conector.updateWithException(insertSolicitud, new String[]{
+            dbStatements.updateWithException(insertSolicitud, new String[]{
                     codigoOferta,
                     String.valueOf((Long)solicitud.get("usuario")),
                     (String) solicitud.get("mensaje")
@@ -162,11 +197,12 @@ public class CargadorDeArchivos {
         } else if (tipo==2){
             fecha = (String) usuario.get("fechaNacimiento");
             rol = TipoUsuario.ADMIN.name();
+            linea++;
         } else {
             fecha = (String) usuario.get("fechaNacimiento");
             rol = TipoUsuario.SOLICITANTE.name();
         }
-        conector.updateWithException(insertUsuario, new String[]{
+        dbStatements.updateWithException(insertUsuario, new String[]{
                 String.valueOf((Long)usuario.get("codigo")),
                 (String) usuario.get("nombre"),
                 (String) usuario.get("direccion"),
@@ -183,7 +219,7 @@ public class CargadorDeArchivos {
         int size = ((JSONArray) telefonos.get(0)).size();
         for (int i = 0; i < size; i++){
             String telefono = ((String) (((JSONArray) telefonos.get(0)).get(i)));
-            conector.updateWithException(insertTelefonos, new String[]{
+            dbStatements.updateWithException(insertTelefonos, new String[]{
                     telefono,
                     usuario
             });
@@ -195,7 +231,7 @@ public class CargadorDeArchivos {
         int size =  ((JSONArray) categorias.get(0)).size();
         for (int i = 0; i < size; i++){
             String categoria = String.valueOf((Long) (((JSONArray) categorias.get(0)).get(i)));
-            conector.updateWithException(insertPref, new String[]{
+            dbStatements.updateWithException(insertPref, new String[]{
                     categoria,
                     usuario
             });
@@ -204,7 +240,7 @@ public class CargadorDeArchivos {
 
     public void insertTarjeta(JSONObject tarjeta, String usuario) throws SQLException {
         String insertTarjeta = "INSERT  INTO tarjeta (titular, numero, cvv, id_empleador) VALUES (?,?,?,?)";
-        conector.updateWithException(insertTarjeta, new String[]{
+        dbStatements.updateWithException(insertTarjeta, new String[]{
                 (String) tarjeta.get("Titular"),
                 String.valueOf((Long)tarjeta.get("numero")),
                 String.valueOf((Long)tarjeta.get("codigoSeguridad")),

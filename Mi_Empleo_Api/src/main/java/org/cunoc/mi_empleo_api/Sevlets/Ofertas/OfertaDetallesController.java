@@ -11,7 +11,6 @@ import org.apache.http.entity.ContentType;
 import org.cunoc.mi_empleo_api.Empleo.Oferta;
 import org.cunoc.mi_empleo_api.Exceptions.NoExisteException;
 import org.cunoc.mi_empleo_api.Services.Empleos.OfertaService;
-import org.cunoc.mi_empleo_api.Sessions.Iniciador;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -21,7 +20,7 @@ public class OfertaDetallesController extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        OfertaService ofertaService = new OfertaService(new Iniciador().getConector(resp,req));
+        OfertaService ofertaService = new OfertaService();
         int codigo = Integer.parseInt(req.getParameter("codigo"));
         try {
             Oferta oferta = ofertaService.getOferta(codigo);

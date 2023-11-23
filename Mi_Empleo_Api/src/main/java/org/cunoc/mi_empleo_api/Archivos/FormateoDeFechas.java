@@ -1,4 +1,4 @@
-package org.cunoc.mi_empleo_api.DB;
+package org.cunoc.mi_empleo_api.Archivos;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

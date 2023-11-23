@@ -8,6 +8,8 @@ import {Router} from "@angular/router";
 })
 export class EmpleadorViewComponent {
 
+  empleador: boolean = false;
+
   constructor(private router: Router) {
   }
 }

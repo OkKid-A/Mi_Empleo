@@ -47,6 +47,11 @@ import { CategoriasCheckboxComponent } from './oferta/categorias-checkbox/catego
 import { EmpleadorFormComponent } from './Empleador/empleador-form/empleador-form.component';
 import { AdminCategoriasTableComponent } from './admin/admin-categorias-list/admin-categorias-table.component';
 import { ComisionFormComponent } from './admin/comision-form/comision-form.component';
+import {MatSlideToggleModule} from "@angular/material/slide-toggle";
+import { AdminReportesViewComponent } from './admin/admin-reportes-view/admin-reportes-view.component';
+import {NgxExtendedPdfViewerModule} from "ngx-extended-pdf-viewer";
+import { EmpReportesViewComponent } from './Empleador/emp-reportes-view/emp-reportes-view.component';
+import { EmpOfertaDetailsComponent } from './Empleador/emp-oferta-details/emp-oferta-details.component';
 
 @NgModule({
   declarations: [
@@ -88,7 +93,10 @@ import { ComisionFormComponent } from './admin/comision-form/comision-form.compo
     CategoriasCheckboxComponent,
     EmpleadorFormComponent,
     AdminCategoriasTableComponent,
-    ComisionFormComponent
+    ComisionFormComponent,
+    AdminReportesViewComponent,
+    EmpReportesViewComponent,
+    EmpOfertaDetailsComponent
   ],
   imports: [
     BrowserModule,
@@ -99,7 +107,8 @@ import { ComisionFormComponent } from './admin/comision-form/comision-form.compo
     BrowserAnimationsModule,
     AngularMaterialModule,
     FontAwesomeModule,
-      ModalModule.forRoot()
+    ModalModule.forRoot(),
+    NgxExtendedPdfViewerModule
   ],
   providers: [],
   bootstrap: [AppComponent],

@@ -38,7 +38,11 @@ export class CargadorArchivoComponent implements OnInit{
         next:() => {
           this.actualizado = true;
         }, error:(error:HttpErrorResponse) =>{
-          alert(error.message)
+          if (error.status==400){
+            alert("Hubo un error al subir los datos.")
+          } else {
+            alert(error.message)
+          }
         }
       });
     }

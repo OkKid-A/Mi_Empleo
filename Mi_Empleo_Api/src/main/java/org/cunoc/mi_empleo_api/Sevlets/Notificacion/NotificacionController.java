@@ -5,14 +5,13 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.cunoc.mi_empleo_api.DB.Conector;
+
 import org.cunoc.mi_empleo_api.Exceptions.InvalidDataException;
 import org.cunoc.mi_empleo_api.Services.Usuarios.EmpleadorService;
 import org.cunoc.mi_empleo_api.Services.Email.Notificador;
 import org.cunoc.mi_empleo_api.Services.NotificacionService;
 import org.cunoc.mi_empleo_api.Services.Empleos.SolicitudService;
 import org.cunoc.mi_empleo_api.Services.Usuarios.UsuarioService;
-import org.cunoc.mi_empleo_api.Sessions.Iniciador;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -23,10 +22,9 @@ public class NotificacionController extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        Conector conector = new Iniciador().getConector(resp,req);
-        Notificador notificador = new Notificador(conector);
-        UsuarioService usuarioService = new UsuarioService(conector);
-        EmpleadorService empleadorService = new EmpleadorService(conector);
+        Notificador notificador = new Notificador();
+        UsuarioService usuarioService = new UsuarioService();
+        EmpleadorService empleadorService = new EmpleadorService();
         String usuario = req.getParameter("usuario");
         String subject = req.getParameter("subject");
         String msg = req.getParameter("mensaje");
@@ -58,9 +56,8 @@ public class NotificacionController extends HttpServlet {
 
     @Override
     protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        Conector conector = new Iniciador().getConector(resp,req);
-        SolicitudService solicitudService = new SolicitudService(conector);
-        NotificacionService notificacionService = new NotificacionService(conector);
+        SolicitudService solicitudService = new SolicitudService();
+        NotificacionService notificacionService = new NotificacionService();
         String codigo = req.getParameter("oferta");
         String mensaje = req.getParameter("mensaje");
         String  subject = req.getParameter("subject");

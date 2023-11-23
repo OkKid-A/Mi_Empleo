@@ -34,6 +34,9 @@ import {CargadorArchivoComponent} from "./admin/cargador-archivo/cargador-archiv
 import {EmpleadorFormComponent} from "./Empleador/empleador-form/empleador-form.component";
 import {AdminCategoriasTableComponent} from "./admin/admin-categorias-list/admin-categorias-table.component";
 import {ComisionFormComponent} from "./admin/comision-form/comision-form.component";
+import {AdminReportesViewComponent} from "./admin/admin-reportes-view/admin-reportes-view.component";
+import {EmpReportesViewComponent} from "./Empleador/emp-reportes-view/emp-reportes-view.component";
+import {EmpOfertaDetailsComponent} from "./Empleador/emp-oferta-details/emp-oferta-details.component";
 
 const routes: Routes = [
   {
@@ -69,7 +72,8 @@ const routes: Routes = [
     children: [
       {path: 'dashboard', component: AdminDashboardComponent},
       {path: 'categorias', component: AdminCategoriasTableComponent},
-      {path: 'comision',component: ComisionFormComponent}
+      {path: 'comision',component: ComisionFormComponent},
+      {path: 'reportes', component: AdminReportesViewComponent}
     ]
   },
   {
@@ -78,13 +82,20 @@ const routes: Routes = [
     component: EmpleadorViewComponent,
     canMatch: [empleadorGuard,isCompletedGuard],
     children:[
+      {
+        path: '',
+        redirectTo:'/empleador/inicio',
+        pathMatch: "full"
+      },
       {path: 'inicio',component: EmpleadorOfertasViewComponent},
       {path: 'nueva-oferta',component: NuevaOfertaFormComponent},
       {path: 'nueva-oferta/:codigo', component: NuevaOfertaFormComponent},
       {path: 'postulaciones', component: EmpleadorPostulacionesViewComponent},
       {path: 'postulacion/:codigo',component: OfertaPostulacionesViewComponent},
       {path: 'entrevistas', component: EmpEntrevistasViewComponent},
-      {path: 'entrevista/:codigo',component: EntrevistaListComponent}
+      {path: 'entrevista/:codigo',component: EntrevistaListComponent},
+      {path: 'reportes', component: EmpReportesViewComponent},
+      {path: 'oferta/:codigo', component: EmpOfertaDetailsComponent}
     ]
   },
   {
@@ -99,6 +110,11 @@ const routes: Routes = [
     component: SolicitanteViewComponent,
     canMatch: [solicitanteGuard, isCompletedGuard],
     children: [
+      {
+        path: '',
+        redirectTo:'/solicitante/solicitudes',
+        pathMatch: "full"
+      },
       {path: 'busqueda',component:SolicitanteBuscadorComponent, title: "Busqueda"},
       {path: 'oferta/:codigo', component: OfertaViewComponent},
       {path: 'solicitudes', component: PostulacionesViewComponent},

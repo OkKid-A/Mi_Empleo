@@ -12,10 +12,9 @@ import jakarta.servlet.http.Part;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.http.entity.ContentType;
 import org.cunoc.mi_empleo_api.Archivos.Lector;
-import org.cunoc.mi_empleo_api.DB.Conector;
+import org.cunoc.mi_empleo_api.Exceptions.InvalidDataException;
 import org.cunoc.mi_empleo_api.Services.Empleos.CategoriasService;
 import org.cunoc.mi_empleo_api.Services.Usuarios.SolicitanteService;
-import org.cunoc.mi_empleo_api.Sessions.Iniciador;
 
 import java.io.File;
 import java.io.IOException;
@@ -32,8 +31,7 @@ public class SolicitanteController extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         Part part = req.getPart("curriculum");
         String solicitante = req.getParameter("solicitante");
-        Conector conector = new Conector();
-        Lector lector = new Lector(conector);
+        Lector lector = new Lector();
         InputStream inputStream = part.getInputStream();
         File file = new File(PATHDOC);
         file.mkdirs();
@@ -41,7 +39,7 @@ public class SolicitanteController extends HttpServlet {
         File file1 = new File(fullPath);
         file1.createNewFile();
         part.write(fullPath);
-        SolicitanteService solicitanteService = new SolicitanteService(conector);
+        SolicitanteService solicitanteService = new SolicitanteService();
         try {
             solicitanteService.updateSolicitante(fullPath,solicitante);
             resp.setStatus(HttpServletResponse.SC_CREATED);
@@ -53,8 +51,7 @@ public class SolicitanteController extends HttpServlet {
 
     @Override
     protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        Conector conector = new Iniciador().getConector(resp,req);
-        CategoriasService categoriasService =new CategoriasService(conector);
+        CategoriasService categoriasService =new CategoriasService();
         ObjectMapper objectMapper = new ObjectMapper().registerModule(new JavaTimeModule());
         String[] categorias = objectMapper.readValue(req.getInputStream(),String[].class);
         resp.setContentType(ContentType.APPLICATION_JSON.getMimeType());
@@ -62,7 +59,7 @@ public class SolicitanteController extends HttpServlet {
         try {
             categoriasService.updatePreferences(categorias,usuario);
             resp.setStatus(HttpServletResponse.SC_CREATED);
-        } catch (SQLException e) {
+        } catch (SQLException | InvalidDataException e) {
             e.printStackTrace();
             resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
         }

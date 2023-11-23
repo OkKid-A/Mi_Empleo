@@ -30,6 +30,8 @@
               <span>Salario: ${{oferta.salario}}</span>
             </div>
             <p class="lead">Descripcion: {{oferta.descripcion}}</p>
+            <h5 class="card-title">Fecha de Publicacion: {{oferta.fechaPublicacion}}</h5>
+            <p class="card-text">Fecha Limite para Aplicar: {{oferta.fechaLimite}}</p>
           </div>
         </div>
       </div>
@@ -39,8 +41,6 @@
     <div class="card text-center  align-content-center justify-content-center">
       <form [formGroup]="aplicarForm" (ngSubmit)="aplicarSubmit()" >
         <div class="card-body">
-          <h5 class="card-title">Fecha de Publicacion: {{oferta.fechaPublicacion}}</h5>
-          <p class="card-text">Fecha Limite para Aplicar: {{oferta.fechaLimite}}</p>
           <label for="mensaje" >Explica por qué deberian escogerte para este trabajo.</label>
           <input type="text"
                  class="form-control"

@@ -7,6 +7,7 @@ import {Router} from "@angular/router";
 import {error} from "@angular/compiler-cli/src/transformers/util";
 import {HttpErrorResponse} from "@angular/common/http";
 import {ComisionService} from "../../../../services/ofertas/comision.service";
+import {EstadoEntrevista} from "../../../../share/estado-entrevista";
 
 @Component({
   selector: 'app-entrevista-card',
@@ -27,7 +28,9 @@ export class EntrevistaCardComponent implements OnInit{
   }
 
   openModal(template : TemplateRef<any>){
-    this.modalRef = this.modalService.show(template)
+    if (this.entrevista.estado!= EstadoEntrevista.FIN){
+      this.modalRef = this.modalService.show(template)
+    }
   }
 
   ngOnInit(): void {
@@ -46,4 +49,5 @@ export class EntrevistaCardComponent implements OnInit{
     }
     })
   }
+
 }

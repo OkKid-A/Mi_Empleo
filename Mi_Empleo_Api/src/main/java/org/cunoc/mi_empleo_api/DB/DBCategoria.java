@@ -5,15 +5,17 @@ import java.sql.SQLException;
 
 public class DBCategoria {
 
-    private Conector conector;
 
-    public DBCategoria(Conector conector) {
-        this.conector = conector;
+    public DBCategoria() {
+
     }
 
     public String  getCategoriaCodigoByNombre(String nombre) throws SQLException {
-        String selectQ = String.format("SELECT codigo FROM categoria WHERE nombre = %s", conector.encomillar(nombre));
-        ResultSet resultSet =          conector.selectFrom(selectQ);
+        DBStatements dbStatements = new DBStatements();
+        String selectQ = "SELECT codigo FROM categoria WHERE nombre = ?";
+        ResultSet resultSet = dbStatements.select(selectQ, new String[]{
+                nombre
+        });
         if (resultSet.next()){
             return resultSet.getString("codigo");
         }

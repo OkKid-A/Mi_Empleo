@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {Tarjeta} from "../../../entities/tarjeta";
 import {EmpleadorService} from "../../../services/Usuarios/empleador.service";
 import {Router} from "@angular/router";
+import {HttpErrorResponse} from "@angular/common/http";
 
 @Component({
   selector: 'app-empleador-form',
@@ -23,7 +24,6 @@ export class EmpleadorFormComponent implements OnInit{
   }
 
   ngOnInit(): void {
-
     this.tarjetaForm = this.fB.group({
       numero: [null,[Validators.required,Validators.maxLength(18)]],
       cvv: [null,[Validators.required,Validators.maxLength(3)]],
@@ -42,7 +42,9 @@ export class EmpleadorFormComponent implements OnInit{
     this.service.uploadEmpleador(this.tarjeta,this.mision,this.vision).subscribe({
       next: ()=>{
         alert("Actualizado con exito");
-        this.router.navigate([this.router.url]);
+        this.router.navigate(['']);
+      },error:(err:HttpErrorResponse)=>{
+        alert(err.error.message)
       }
     })
   }

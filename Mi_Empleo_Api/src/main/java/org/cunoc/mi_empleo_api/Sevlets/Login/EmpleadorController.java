@@ -8,9 +8,8 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.apache.http.entity.ContentType;
-import org.cunoc.mi_empleo_api.DB.Conector;
+import org.cunoc.mi_empleo_api.Exceptions.InvalidDataException;
 import org.cunoc.mi_empleo_api.Services.Usuarios.EmpleadorService;
-import org.cunoc.mi_empleo_api.Sessions.Iniciador;
 import org.cunoc.mi_empleo_api.Usuario.Empleador.Tarjeta;
 
 import java.io.IOException;
@@ -21,8 +20,7 @@ public class EmpleadorController extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        Conector conector = new Iniciador().getConector(resp,req);
-        EmpleadorService empleadorService = new EmpleadorService(conector);
+        EmpleadorService empleadorService = new EmpleadorService();
         String mision = req.getParameter("mision");
         String vision = req.getParameter("vision");
         String usuario = req.getParameter("usuario");
@@ -35,6 +33,15 @@ public class EmpleadorController extends HttpServlet {
         } catch (SQLException e) {
            e.printStackTrace();
            resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+        } catch (InvalidDataException e) {
+            resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            System.out.println("Error en la informacion ingresada: "+e.getMessage());
+            e.printStackTrace();
         }
+    }
+
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
     }
 }

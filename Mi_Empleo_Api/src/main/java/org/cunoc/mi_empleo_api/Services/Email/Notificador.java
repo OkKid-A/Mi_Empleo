@@ -1,6 +1,6 @@
 package org.cunoc.mi_empleo_api.Services.Email;
 
-import org.cunoc.mi_empleo_api.DB.Conector;
+
 import org.cunoc.mi_empleo_api.Exceptions.InvalidDataException;
 
 import java.sql.SQLException;
@@ -18,10 +18,8 @@ public class Notificador {
         String receiverEmail = null;
         String emailSubject = null;
         String emailBody = null;
-        private Conector conector;
 
-        public Notificador(Conector conector) {
-            this.conector = conector;
+        public Notificador() {
         }
 
 

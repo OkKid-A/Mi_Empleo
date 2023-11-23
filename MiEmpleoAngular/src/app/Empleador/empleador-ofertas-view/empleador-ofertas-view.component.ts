@@ -25,7 +25,7 @@ export class EmpleadorOfertasViewComponent {
   }
 
   buscar(){
-    this.ofertaService.getOfertas(this.searchKey,0).subscribe((ofertas) => {
+    this.ofertaService.getOfertasByEmpresa(this.searchKey).subscribe((ofertas) => {
       this.ofertas = ofertas;
     })
   }

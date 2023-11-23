@@ -113,11 +113,15 @@ export class OfertaCardComponent implements OnInit{
     this.modalRef = this.modalService.show(template)
   }
 
-  irAListado(){
-    if (this.entrevista){
+  irAListado() {
+    if (this.entrevista) {
       return "../entrevista/" + this.oferta.codigo;
-    } else {
+    } else if (this.solicitante){
+      return this.irADetalles();
+    }else if (this.postulaciones){
       return "../postulacion/" + this.oferta.codigo;
+    } else {
+      return "../inicio";
     }
   }
 }

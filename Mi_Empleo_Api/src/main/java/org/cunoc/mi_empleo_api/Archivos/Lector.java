@@ -1,7 +1,6 @@
 package org.cunoc.mi_empleo_api.Archivos;
 
 import jakarta.servlet.http.Part;
-import org.cunoc.mi_empleo_api.DB.Conector;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -11,10 +10,9 @@ import java.nio.charset.StandardCharsets;
 
 public class Lector {
 
-    private Conector conector;
 
-    public Lector(Conector conector) {
-        this.conector = conector;
+    public Lector() {
+
     }
 
     public BufferedReader getBufferedReaderFromFile(Part part) throws IOException {

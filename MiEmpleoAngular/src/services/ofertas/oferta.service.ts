@@ -6,6 +6,7 @@ import {ApiUrl} from "../../share/api-url";
 import {Solicitud} from "../../entities/solicitud";
 import {Postulacion} from "../../entities/postulacion";
 import {Categoria} from "../../entities/categoria";
+import {LocalStorageVariables} from "../../share/local-storage-variables";
 
 @Injectable({
   providedIn: 'root'
@@ -23,6 +24,7 @@ export class OfertaService {
     return this.http.delete(ApiUrl.API_URL+"ofertas?codigo="+codigo+"&estado="+estado)
   }
   public crearOferta(oferta: Oferta):Observable<Oferta>{
+    console.log(oferta.categoria);
     return this.http.post<Oferta>(ApiUrl.API_URL + "ofertas",oferta)
   }
 
@@ -34,8 +36,9 @@ export class OfertaService {
     return this.http.get<Oferta>(ApiUrl.API_URL+"oferta-detalles?codigo="+id)
   }
 
-  public getOfertasByEstado(estado: string) : Observable<Oferta[]> {
-    return this.http.get<Oferta[]>(ApiUrl.API_URL + "ofertas" + "?estado=" + estado).pipe(
+
+  public getOfertasByEstado(estado: string, empresa : string) : Observable<Oferta[]> {
+    return this.http.get<Oferta[]>(ApiUrl.API_URL + "ofertas?estado=" + estado+ "&empresa="+empresa).pipe(
     )
   }
 
@@ -43,7 +46,13 @@ export class OfertaService {
     return this.http.get<Categoria[]>(ApiUrl.API_URL + "categorias")
   }
 
+  getOfertasByEmpresa(searchKey: string) : Observable<Oferta[]>{
+    const empresa = localStorage.getItem(LocalStorageVariables.LOCAL_USER);
+    return this.http.get<Oferta[]>(ApiUrl.API_URL+"ofertas?empresa="+empresa+"&searchKey="+searchKey)
+  }
   public manejarError(err:HttpErrorResponse){
     throwError(err)
   }
+
+
 }

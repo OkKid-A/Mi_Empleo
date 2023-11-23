@@ -3,9 +3,7 @@ import {AbstractControl, FormBuilder, FormGroup, ValidationErrors, ValidatorFn, 
 import {Oferta} from "../../../entities/oferta";
 import {OfertaService} from "../../../services/ofertas/oferta.service";
 import {LocalStorageVariables} from "../../../share/local-storage-variables";
-import {map, of} from "rxjs";
 import {ActivatedRoute} from "@angular/router";
-import {formatDate} from "@angular/common";
 
 @Component({
   selector: 'app-nueva-oferta-form',
@@ -37,7 +35,9 @@ export class NuevaOfertaFormComponent implements OnInit {
       if (params){
         console.log(params.get('codigo'))
         this.ofertaCodigo = params.get('codigo') ?? "";
-        this.editando = true;
+        if (this.ofertaCodigo !== "" ){
+          this.editando = true;
+        }
       }
     })
   }
@@ -92,7 +92,9 @@ export class NuevaOfertaFormComponent implements OnInit {
               }
           })
       } else {
-          this.ofertaService.crearOferta(this.oferta).subscribe({
+        this.oferta.categoria = this.categoriaCode;
+        console.log(this.categoriaCode);
+        this.ofertaService.crearOferta(this.oferta).subscribe({
               next: (nuevo: Oferta) => {
                   this.ofertaForm.reset();
                   this.creado = true;
@@ -113,4 +115,5 @@ export class NuevaOfertaFormComponent implements OnInit {
   }
 
 
+  protected readonly Number = Number;
 }

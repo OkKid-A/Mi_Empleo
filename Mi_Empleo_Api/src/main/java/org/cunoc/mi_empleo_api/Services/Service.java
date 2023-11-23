@@ -1,16 +1,18 @@
 package org.cunoc.mi_empleo_api.Services;
 
-import org.cunoc.mi_empleo_api.DB.Conector;
+import org.cunoc.mi_empleo_api.DB.DBStatements;
+
+import java.sql.SQLException;
 
 public class Service {
 
-    private Conector conector;
+    private DBStatements conector;
 
-    public Conector getConector() {
+    public DBStatements getDBStatements() {
         return conector;
     }
 
-    public Service(Conector conector) {
-        this.conector = conector;
+    public Service() {
+        this.conector = new DBStatements();
     }
 }

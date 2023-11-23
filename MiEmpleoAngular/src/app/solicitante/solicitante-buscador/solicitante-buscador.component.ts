@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {FormBuilder} from "@angular/forms";
+import {FormBuilder, Validators} from "@angular/forms";
 import {Oferta} from "../../../entities/oferta";
 import {OfertaService} from "../../../services/ofertas/oferta.service";
 
@@ -13,7 +13,7 @@ export class SolicitanteBuscadorComponent implements OnInit{
   filtro = 0;
   ofertas : Oferta[] = []
   ofertaForm = this.fB.nonNullable.group({
-    searchKey :"",
+    searchKey :[null,[Validators.required]],
     filtro : 0
   });
 

@@ -8,13 +8,10 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.apache.http.entity.ContentType;
-import org.cunoc.mi_empleo_api.DB.Conector;
 import org.cunoc.mi_empleo_api.Exceptions.InvalidDataException;
 import org.cunoc.mi_empleo_api.Exceptions.NoExisteException;
 import org.cunoc.mi_empleo_api.Services.Usuarios.UsuarioService;
-import org.cunoc.mi_empleo_api.Sessions.Autenticador;
-import org.cunoc.mi_empleo_api.Sessions.Iniciador;
-import org.cunoc.mi_empleo_api.Usuario.Empleador.Tarjeta;
+import org.cunoc.mi_empleo_api.Sessions.DBUsuario;
 import org.cunoc.mi_empleo_api.Usuario.Usuario;
 
 import java.io.IOException;
@@ -25,8 +22,7 @@ public class UsuarioController extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        Conector conector = new Iniciador().getConector(resp,req);
-        UsuarioService usuarioService = new UsuarioService(conector);
+        UsuarioService usuarioService = new UsuarioService();
         ObjectMapper objectMapper = new ObjectMapper().registerModule(new JavaTimeModule());
         Usuario usuario = objectMapper.readValue(req.getInputStream(),Usuario.class);
         resp.setContentType(ContentType.APPLICATION_JSON.getMimeType());
@@ -45,12 +41,11 @@ public class UsuarioController extends HttpServlet {
 
     @Override
     protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        Conector conector = new Iniciador().getConector(resp,req);
         String token = req.getParameter("token");
         String password = req.getParameter("password");
         ObjectMapper objectMapper = new ObjectMapper().registerModule(new JavaTimeModule());
         resp.setContentType(ContentType.APPLICATION_JSON.getMimeType());
-        UsuarioService usuarioService = new UsuarioService(conector);
+        UsuarioService usuarioService = new UsuarioService();
         try {
             Usuario usuario = usuarioService.cambiarPassword1st(password,token);
             objectMapper.writeValue(resp.getWriter(), usuario);
@@ -66,14 +61,13 @@ public class UsuarioController extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        Conector conector = new Iniciador().getConector(resp,req);
         String rol = req.getParameter("rol");
         String codigoUsuario = req.getParameter("codigo");
-        Autenticador autenticador = new Autenticador(conector);
+        DBUsuario DBUsuario = new DBUsuario();
         try {
         if (rol!=null&&codigoUsuario!=null){
             ObjectMapper objectMapper = new ObjectMapper().registerModule(new JavaTimeModule());
-            boolean existe = autenticador.verificarCompletado(rol,codigoUsuario);
+            boolean existe = DBUsuario.verificarCompletado(rol,codigoUsuario);
             System.out.println(existe);
             objectMapper.writeValue(resp.getWriter(), existe);
             resp.setStatus(HttpServletResponse.SC_ACCEPTED);

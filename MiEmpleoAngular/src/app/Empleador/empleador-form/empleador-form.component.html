@@ -30,8 +30,8 @@
                         <div class="form-group">
                             <label class="text"> Ingresa tu Numero de tarjeta</label>
                             <input class="form-control" placeholder="Numero de Tarjeta" formControlName = "numero" type="number"
-                                   [class.is-invalid]="empForm.controls['numero'].invalid && empForm.controls['numero'].touched">
-                            <div *ngIf="empForm.controls['numero'].invalid &&  (empForm.controls['numero'].dirty || empForm.controls['numero'].touched)"
+                                   [class.is-invalid]="tarjetaForm.controls['numero'].invalid && tarjetaForm.controls['numero'].touched">
+                            <div *ngIf="tarjetaForm.controls['numero'].invalid &&  (tarjetaForm.controls['numero'].dirty || tarjetaForm.controls['numero'].touched)"
                                  class="invalid-feedback">
                                 Por favor ingrese una mision valida.
                             </div>
@@ -39,8 +39,8 @@
                         <div class="form-group">
                             <label class="text"> Ingresa el Codigo de Seguridad</label>
                             <input class="form-control" placeholder="CVV" formControlName = "cvv"
-                                   [class.is-invalid]="empForm.controls['cvv'].invalid && empForm.controls['cvv'].touched">
-                            <div *ngIf="empForm.controls['cvv'].invalid &&  (empForm.controls['cvv'].dirty || empForm.controls['cvv'].touched)"
+                                   [class.is-invalid]="tarjetaForm.controls['cvv'].invalid && tarjetaForm.controls['cvv'].touched">
+                            <div *ngIf="tarjetaForm.controls['cvv'].invalid &&  (tarjetaForm.controls['cvv'].dirty || tarjetaForm.controls['cvv'].touched)"
                                  class="invalid-feedback">
                                 Por favor ingrese un CVV valido.
                             </div>
@@ -48,8 +48,8 @@
                         <div class="form-group">
                             <label class="text"> Ingresa el Nombre del Titular</label>
                             <input class="form-control" placeholder="Titular de la tarjeta" formControlName = "titular"
-                                   [class.is-invalid]="empForm.controls['titular'].invalid && empForm.controls['titular'].touched">
-                            <div *ngIf="empForm.controls['titular'].invalid &&  (empForm.controls['titular'].dirty || empForm.controls['titular'].touched)"
+                                   [class.is-invalid]="tarjetaForm.controls['titular'].invalid && tarjetaForm.controls['titular'].touched">
+                            <div *ngIf="tarjetaForm.controls['titular'].invalid &&  (tarjetaForm.controls['titular'].dirty || tarjetaForm.controls['titular'].touched)"
                                  class="invalid-feedback">
                                 Por favor ingrese un Nombre valido.
                             </div>

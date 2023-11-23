@@ -10,8 +10,6 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.apache.http.entity.ContentType;
 import org.cunoc.mi_empleo_api.Empleo.Categoria;
 import org.cunoc.mi_empleo_api.Services.Empleos.CategoriasService;
-import org.cunoc.mi_empleo_api.Sessions.Iniciador;
-import org.cunoc.mi_empleo_api.Usuario.Empleador.Tarjeta;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -22,7 +20,7 @@ public class CategoriasController extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        CategoriasService categoriasService = new CategoriasService(new Iniciador().getConector(resp,req));
+        CategoriasService categoriasService = new CategoriasService();
         String nombre = req.getParameter("nombre");
         if (nombre!=null){
             try {
@@ -51,7 +49,7 @@ public class CategoriasController extends HttpServlet {
 
     @Override
     protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        CategoriasService categoriasService = new CategoriasService(new Iniciador().getConector(resp,req));
+        CategoriasService categoriasService = new CategoriasService();
         ObjectMapper objectMapper = new ObjectMapper().registerModule(new JavaTimeModule());
         Categoria categoria = objectMapper.readValue(req.getInputStream(),Categoria.class);
         resp.setContentType(ContentType.APPLICATION_JSON.getMimeType());

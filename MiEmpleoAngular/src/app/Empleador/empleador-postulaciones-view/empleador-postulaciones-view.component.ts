@@ -3,6 +3,7 @@ import {EstadoOferta} from "../../../share/estado-oferta";
 import {Oferta} from "../../../entities/oferta";
 import {OfertaService} from "../../../services/ofertas/oferta.service";
 import {of} from "rxjs";
+import {LocalStorageVariables} from "../../../share/local-storage-variables";
 
 @Component({
   selector: 'app-empleador-postulaciones-view',
@@ -18,7 +19,8 @@ export class EmpleadorPostulacionesViewComponent implements OnInit{
     }
 
     ngOnInit(): void {
-        this.ofertaService.getOfertasByEstado(EstadoOferta.PEND).subscribe((ofertas)=>{
+        this.ofertaService.getOfertasByEstado(EstadoOferta.PEND, localStorage.getItem(LocalStorageVariables.LOCAL_USER)??"")
+          .subscribe((ofertas)=>{
             this.ofertas = ofertas;
         })
     }

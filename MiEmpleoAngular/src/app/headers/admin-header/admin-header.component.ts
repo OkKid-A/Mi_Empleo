@@ -10,10 +10,11 @@ import {ActivatedRoute, Router} from "@angular/router";
 export class AdminHeaderComponent {
 
   auth : boolean;
-  routerInicio = "inicio";
+  routerInicio = "dashboard";
   routerLogin = "login";
   routerCategorias = "categorias";
   routerComision = "comision";
+  routerReportes = "reportes";
 
   constructor(private logS : LoginService,
               private router : Router,

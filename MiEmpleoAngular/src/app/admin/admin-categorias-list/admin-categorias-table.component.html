@@ -63,7 +63,7 @@
         </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="close pull-right btn btn-danger" (click)="modalRef.hide()" >Close</button>
+        <button type="button" class="close pull-right btn btn-danger" (click)="modalRef.hide();categoriaForm.reset()" >Close</button>
         <button type="button" class="btn btn-primary" (click)="editar();modalRef.hide()" [disabled]="categoriaForm.invalid">Confirmar</button>
       </div>
     </form>

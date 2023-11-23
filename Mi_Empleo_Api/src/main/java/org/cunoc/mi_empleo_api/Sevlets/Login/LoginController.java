@@ -8,11 +8,8 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.apache.http.entity.ContentType;
-import org.cunoc.mi_empleo_api.DB.Conector;
 import org.cunoc.mi_empleo_api.Exceptions.NoExisteException;
-import org.cunoc.mi_empleo_api.Exceptions.SessionException;
-import org.cunoc.mi_empleo_api.Sessions.Autenticador;
-import org.cunoc.mi_empleo_api.Sessions.Iniciador;
+import org.cunoc.mi_empleo_api.Sessions.DBUsuario;
 import org.cunoc.mi_empleo_api.Usuario.Usuario;
 
 import java.io.IOException;
@@ -25,12 +22,10 @@ public class LoginController extends HttpServlet {
         String username = req.getParameter("username");
         String password = req.getParameter("password");
         if (username != null && password != null){
-            Iniciador iniciador = new Iniciador();
-            Autenticador autenticador =  new Autenticador(iniciador.getConector(resp,req));
-
+            DBUsuario DBUsuario =  new DBUsuario();
             resp.setContentType(ContentType.APPLICATION_JSON.getMimeType());
             try {
-                Usuario usuario = autenticador.buscarUsuario(username,password);
+                Usuario usuario = DBUsuario.buscarUsuario(username,password);
                 ObjectMapper objectMapper = new ObjectMapper().registerModule(new JavaTimeModule());
                 objectMapper.writeValue(resp.getWriter(),usuario);
                 resp.setStatus(HttpServletResponse.SC_ACCEPTED);

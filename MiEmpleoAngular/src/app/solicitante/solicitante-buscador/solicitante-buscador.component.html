@@ -14,7 +14,8 @@
               <option value="3">Ubicacion</option>
               <option value="4">Salario</option>
             </select>
-            <input class="form-control 75" type="text" placeholder="Busca un empleo..." formControlName = "searchKey">
+            <input class="form-control 75" type="text" placeholder="Busca un empleo..." formControlName = "searchKey"
+            (input)="onBuscarSubmit()">
             <a class="btn btn-dark px-3" (click)="onBuscarSubmit()">
               <i class="fa fa-search pt-1"></i>
             </a>

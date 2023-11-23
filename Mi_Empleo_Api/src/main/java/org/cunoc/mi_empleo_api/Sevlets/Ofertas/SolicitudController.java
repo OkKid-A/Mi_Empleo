@@ -13,7 +13,6 @@ import org.cunoc.mi_empleo_api.Empleo.Solicitud;
 import org.cunoc.mi_empleo_api.Exceptions.InvalidDataException;
 import org.cunoc.mi_empleo_api.Exceptions.NoExisteException;
 import org.cunoc.mi_empleo_api.Services.Empleos.SolicitudService;
-import org.cunoc.mi_empleo_api.Sessions.Iniciador;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -26,7 +25,7 @@ public class SolicitudController extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        SolicitudService solicitudService = new SolicitudService(new Iniciador().getConector(resp,req));
+        SolicitudService solicitudService = new SolicitudService();
         String usuario = req.getParameter("usuario");
         String estado = req.getParameter("estado");
         List<Oferta> ofertas = new ArrayList<>();
@@ -46,7 +45,7 @@ public class SolicitudController extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        SolicitudService solicitudService = new SolicitudService(new Iniciador().getConector(resp,req));
+        SolicitudService solicitudService = new SolicitudService();
         ObjectMapper objectMapper= new ObjectMapper().registerModule(new JavaTimeModule());
         Solicitud solicitud = objectMapper.readValue(req.getInputStream(),Solicitud.class);
         resp.setContentType(ContentType.APPLICATION_JSON.getMimeType());
@@ -63,13 +62,13 @@ public class SolicitudController extends HttpServlet {
 
     @Override
     protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        SolicitudService solicitudService = new SolicitudService(new Iniciador().getConector(resp,req));
+        SolicitudService solicitudService = new SolicitudService();
         String usuario = req.getParameter("usuario");
         String oferta = req.getParameter("oferta");
         if (usuario !=null && oferta != null){
             try {
                 solicitudService.deleteSolicitud(usuario,oferta);
-            } catch (NoExisteException e) {
+            } catch (SQLException e) {
                 resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
             }
             resp.setStatus(HttpServletResponse.SC_ACCEPTED);

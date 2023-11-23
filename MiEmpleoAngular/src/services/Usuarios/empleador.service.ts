@@ -16,4 +16,5 @@ export class EmpleadorService {
     const usuario = localStorage.getItem(LocalStorageVariables.LOCAL_USER);
     return this.http.post<void>(ApiUrl.API_URL+"empleador?usuario="+usuario+"&mision="+mision+"&vision="+vision,tarjeta)
   }
+
 }

@@ -34,7 +34,7 @@
         </div>
         <div class="modal-body">
           <div class="form-group">
-          <label class="text">Fecha de Publicacion</label>
+          <label class="text">Nueva Fecha Actual</label>
           <input class="form-control" formControlName = "fecha" type="date"
                  [class.is-invalid]="fechaForm.controls['fecha'].invalid && fechaForm.controls['fecha'].touched">
           <div *ngIf="fechaForm.controls['fecha'].invalid &&  (fechaForm.controls['fecha'].dirty || fechaForm.controls['fecha'].touched)"

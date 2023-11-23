@@ -12,7 +12,8 @@ export class EmpleadorHeaderComponent implements OnInit{
   routerLogin = "../login";
   routerInicio = "inicio";
   routerPostulaciones = "postulaciones";
-  routerEntrevistas = "entrevistas"
+  routerEntrevistas = "entrevistas";
+  routerReportes = "reportes";
 
   constructor(private logS : LoginService,
               private router : Router,

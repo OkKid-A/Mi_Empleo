@@ -6,7 +6,7 @@
       <div class="row p-2 pt-4 mt-5 pb-3 d-flex justify-content-center">
         <div class="col-md-6">
           <div class="d-flex form-inputs">
-            <input class="form-control 75" type="text" placeholder="Busca un empleo por su nombre..." formControlName = "searchKey">
+            <input class="form-control 75" type="text" (keyup)="onBuscarSubmit()" placeholder="Busca un empleo por su nombre..." formControlName = "searchKey">
             <a class="btn btn-dark px-3" (click)="onBuscarSubmit()">
               <i class="fa fa-search pt-1"></i>
             </a>

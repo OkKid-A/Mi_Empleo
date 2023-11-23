@@ -1,20 +1,18 @@
 <div class="pt-5 mt-5 w-50 mx-auto">
-  <ul class="nav nav-tabs" id="f" role="tablist">
+  <ul class="nav nav-tabs me-auto mb-2 mb-lg-0" id="f" role="tablist">
     <li class="nav-item" role="presentation">
-      <button class="nav-link active" id="activas-tab" (click)="selectEstado(EstadoOferta.ACT)"
-              aria-controls="home" aria-selected="true" type="button"  role="tab"
-              data-bs-toggle="tab" data-bs-target="#home">Activas</button>
+      <button class="nav-link" id="activas-tab" (click)="selectEstado(EstadoOferta.ACT)">Activas</button>
     </li>
     <li class="nav-item" role="presentation">
-      <button class="nav-link active" id="pendientes-tab" (click)="selectEstado(EstadoOferta.PEND)"
+      <button class="nav-link " id="pendientes-tab" (click)="selectEstado(EstadoOferta.PEND)"
               aria-controls="pendientes" aria-selected="true" type="button"  role="tab" >Pendientes</button>
     </li>
     <li class="nav-item" role="presentation">
-      <button class="nav-link active" id="entrevistas-tab" (click)="selectEstado(EstadoOferta.ENT)"
+      <button class="nav-link " id="entrevistas-tab" (click)="selectEstado(EstadoOferta.ENT)"
               aria-controls="home" aria-selected="true" type="button"  role="tab" >Entrevistando</button>
     </li>
     <li class="nav-item" role="presentation">
-      <button class="nav-link active" id="finalizadas-tab" type="button"  role="tab" (click)="selectEstado(EstadoOferta.FIN)"
+      <button class="nav-link " id="finalizadas-tab" type="button"  role="tab" (click)="selectEstado(EstadoOferta.FIN)"
               aria-controls="home" aria-selected="true">Finalizadas</button>
     </li>
   </ul>
